@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Żelazo — dziennik treningowy</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <header class="topbar">
+    <div class="brand"><span class="plate-dot"></span>Żelazo</div>
+    <button class="link" id="logout-btn" style="display:none;">Wyloguj</button>
+  </header>
+
+  <!-- LOGOWANIE -->
+  <section class="view" id="view-login">
+    <h1 class="view-title">Zaloguj się</h1>
+    <div class="error-banner" id="login-error"></div>
+    <form id="login-form" style="display:flex; flex-direction:column; gap:16px;">
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="login-password">Hasło</label>
+        <input type="password" id="login-password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="primary">Zaloguj</button>
+    </form>
+    <div class="auth-switch">
+      Nie masz konta? <button id="go-register">Zarejestruj się</button>
+    </div>
+  </section>
+
+  <!-- REJESTRACJA -->
+  <section class="view" id="view-register">
+    <h1 class="view-title">Załóż konto</h1>
+    <div class="error-banner" id="register-error"></div>
+    <form id="register-form" style="display:flex; flex-direction:column; gap:16px;">
+      <div class="field">
+        <label for="register-name">Imię / nick</label>
+        <input type="text" id="register-name" autocomplete="nickname">
+      </div>
+      <div class="field">
+        <label for="register-email">Email</label>
+        <input type="email" id="register-email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="register-password">Hasło</label>
+        <input type="password" id="register-password" required minlength="6" autocomplete="new-password">
+      </div>
+      <button type="submit" class="primary">Utwórz konto</button>
+    </form>
+    <div class="auth-switch">
+      Masz już konto? <button id="go-login">Zaloguj się</button>
+    </div>
+  </section>
+
+  <!-- LISTA TRENINGÓW -->
+  <section class="view" id="view-workouts">
+    <h1 class="view-title">Twoje treningi</h1>
+    <p class="view-subtitle" id="workouts-subtitle"></p>
+    <div class="workout-list" id="workout-list"></div>
+  </section>
+
+  <!-- SZCZEGÓŁY TRENINGU -->
+  <section class="view" id="view-workout-detail">
+    <button class="back-link" id="back-to-list">← Wszystkie treningi</button>
+    <h1 class="view-title" id="workout-detail-date"></h1>
+    <div id="exercise-groups" style="display:flex; flex-direction:column; gap:14px;"></div>
+
+    <div class="add-set-panel">
+      <div class="field">
+        <label for="add-set-exercise">Ćwiczenie</label>
+        <select id="add-set-exercise"></select>
+      </div>
+      <div class="row-3">
+        <div class="field">
+          <label for="add-set-reps">Powtórzenia</label>
+          <input type="number" id="add-set-reps" min="1" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="add-set-weight">Ciężar (kg)</label>
+          <input type="number" id="add-set-weight" min="0" step="0.5" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label for="add-set-rpe">RPE</label>
+          <input type="number" id="add-set-rpe" min="1" max="10" step="0.5" inputmode="decimal">
+        </div>
+      </div>
+      <button class="primary" id="add-set-btn">Dodaj serię</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
