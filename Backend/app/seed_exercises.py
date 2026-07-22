@@ -10,6 +10,8 @@ DEFAULT_EXERCISES = [
     ("Martwy ciąg", "plecy/nogi"),
     ("Wyciskanie sztangi na ławce płaskiej", "klatka piersiowa"),
     ("Wyciskanie sztangi na ławce skos dodatni", "klatka piersiowa"),
+    ("Wyciskanie hantli na ławce płaskiej", "klatka piersiowa"),
+    ("Wyciskanie hantli na ławce skos dodatni", "klatka piersiowa"),
     ("Wyciskanie żołnierskie (OHP)", "barki"),
     ("Podciąganie na drążku", "plecy"),
     ("Wiosłowanie sztangą", "plecy"),
