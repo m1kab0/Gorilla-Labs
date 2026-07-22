@@ -3,7 +3,7 @@ from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from app import models, schemas, auth
-from app.database import get_db
+from database import get_db
 
 router = APIRouter(prefix="/exercises", tags=["Ćwiczenia"])
 
