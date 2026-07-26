@@ -1,0 +1,43 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
+const TOKEN_KEY = 'zelazo_token';
+
+export function getToken() {
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export function setToken(token) {
+  if (token) localStorage.setItem(TOKEN_KEY, token);
+  else localStorage.removeItem(TOKEN_KEY);
+}
+
+export async function api(path, { method = 'GET', body, form } = {}) {
+  const headers = {};
+  const token = getToken();
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  let fetchBody;
+  if (form) {
+    fetchBody = new URLSearchParams(form);
+    headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  } else if (body) {
+    fetchBody = JSON.stringify(body);
+    headers['Content-Type'] = 'application/json';
+  }
+
+  const res = await fetch(`${API_BASE_URL}${path}`, { method, headers, body: fetchBody });
+
+  if (!res.ok) {
+    let detail = 'Wystąpił błąd. Spróbuj ponownie.';
+    try {
+      const data = await res.json();
+      detail = data.detail || detail;
+    } catch (_) {
+      // brak treści JSON w odpowiedzi błędu - zostaw domyślny komunikat
+    }
+    throw new Error(detail);
+  }
+
+  if (res.status === 204) return null;
+  return res.json();
+}
