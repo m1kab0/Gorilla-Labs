@@ -77,7 +77,7 @@ body {
   transform: translateY(-2px);
 }
 
-.topbar button.link {
+button.link {
   background: none;
   border: none;
   color: var(--text-muted);
@@ -88,7 +88,7 @@ body {
   text-underline-offset: 3px;
   padding: 4px;
 }
-.topbar button.link:hover { color: var(--text); }
+button.link:hover { color: var(--text); }
 
 /* ---------- Widoki ---------- */
 
@@ -331,6 +331,31 @@ button.secondary:hover { border-color: var(--text-muted); }
   line-height: 1;
 }
 .set-delete:hover { color: var(--accent); }
+
+/* ---------- Karty ćwiczeń (widok zarządzania) ---------- */
+
+.exercise-list-item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.exercise-list-item .eli-name {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+}
+.exercise-list-item .eli-muscle {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 2px;
+}
+.exercise-list-item.global {
+  opacity: 0.75;
+}
 
 /* ---------- Dodawanie serii ---------- */
 

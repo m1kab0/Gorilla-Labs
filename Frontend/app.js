@@ -45,6 +45,7 @@ function showView(id) {
   document.querySelectorAll(".view").forEach((el) => el.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   document.getElementById("logout-btn").style.display = state.token ? "inline" : "none";
+  document.getElementById("nav-exercises-btn").style.display = state.token ? "inline" : "none";
 }
 
 function showError(bannerId, message) {
@@ -110,6 +111,116 @@ async function enterApp() {
   state.exercises = await api("/exercises/");
   await loadWorkouts();
   showView("view-workouts");
+}
+
+// ---------- Zarządzanie ćwiczeniami ----------
+
+document.getElementById("nav-exercises-btn").addEventListener("click", async () => {
+  await openExercisesView();
+});
+
+document.getElementById("exercises-back-to-list").addEventListener("click", async () => {
+  await loadWorkouts();
+  showView("view-workouts");
+});
+
+async function openExercisesView() {
+  state.exercises = await api("/exercises/");
+  renderExercisesView();
+  showView("view-exercises");
+}
+
+function renderExercisesView() {
+  clearError("exercise-error");
+  const searchInput = document.getElementById("exercises-page-search");
+  const query = (searchInput.value || "").trim().toLowerCase();
+
+  const ownList = document.getElementById("own-exercise-list");
+  const globalList = document.getElementById("global-exercise-list");
+  ownList.innerHTML = "";
+  globalList.innerHTML = "";
+
+  const matches = (ex) => !query || ex.name.toLowerCase().includes(query) || (ex.muscle_group || "").toLowerCase().includes(query);
+
+  const own = state.exercises.filter((ex) => !ex.is_global && matches(ex));
+  const global = state.exercises.filter((ex) => ex.is_global && matches(ex));
+
+  if (own.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = query ? "Brak własnych ćwiczeń pasujących do wyszukiwania." : "Nie masz jeszcze własnych ćwiczeń. Dodaj pierwsze powyżej.";
+    ownList.appendChild(empty);
+  } else {
+    own.forEach((ex) => {
+      const row = document.createElement("div");
+      row.className = "exercise-list-item";
+      row.innerHTML = `
+        <div>
+          <div class="eli-name">${ex.name}</div>
+          ${ex.muscle_group ? `<div class="eli-muscle">${ex.muscle_group}</div>` : ""}
+        </div>
+        <button class="set-delete" title="Usuń ćwiczenie" data-exercise-id="${ex.id}">✕</button>
+      `;
+      row.querySelector(".set-delete").addEventListener("click", () => deleteExercise(ex.id));
+      ownList.appendChild(row);
+    });
+  }
+
+  if (global.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Brak globalnych ćwiczeń pasujących do wyszukiwania.";
+    globalList.appendChild(empty);
+  } else {
+    global.forEach((ex) => {
+      const row = document.createElement("div");
+      row.className = "exercise-list-item global";
+      row.innerHTML = `
+        <div>
+          <div class="eli-name">${ex.name}</div>
+          ${ex.muscle_group ? `<div class="eli-muscle">${ex.muscle_group}</div>` : ""}
+        </div>
+      `;
+      globalList.appendChild(row);
+    });
+  }
+}
+
+document.getElementById("exercises-page-search").addEventListener("input", renderExercisesView);
+async function createExercise(name, muscleGroup) {
+  if (!name || !name.trim()) {
+    throw new Error("Podaj nazwę ćwiczenia.");
+  }
+  const exercise = await api("/exercises/", {
+    method: "POST",
+    body: { name: name.trim(), muscle_group: muscleGroup ? muscleGroup.trim() : null },
+  });
+  state.exercises.push(exercise);
+  return exercise;
+}
+
+document.getElementById("create-exercise-btn").addEventListener("click", async () => {
+  clearError("exercise-error");
+  const name = document.getElementById("new-exercise-name").value;
+  const muscle = document.getElementById("new-exercise-muscle").value;
+  try {
+    await createExercise(name, muscle);
+    document.getElementById("new-exercise-name").value = "";
+    document.getElementById("new-exercise-muscle").value = "";
+    renderExercisesView();
+  } catch (err) {
+    showError("exercise-error", err.message);
+  }
+});
+
+async function deleteExercise(exerciseId) {
+  try {
+    await api(`/exercises/${exerciseId}`, { method: "DELETE" });
+    state.exercises = state.exercises.filter((ex) => ex.id !== exerciseId);
+    renderExercisesView();
+  } catch (err) {
+    alert(err.message);
+  }
 }
 
 // ---------- Lista treningów ----------
@@ -182,20 +293,46 @@ async function openWorkout(workoutId) {
   state.currentWorkoutId = workoutId;
   const workout = await api(`/workouts/${workoutId}`);
   renderWorkoutDetail(workout);
+  document.getElementById("add-set-exercise-search").value = "";
   populateExerciseSelect();
   showView("view-workout-detail");
 }
 
-function populateExerciseSelect() {
+function populateExerciseSelect(filterQuery) {
   const select = document.getElementById("add-set-exercise");
+  const previousValue = select.value;
+  const query = (filterQuery || "").trim().toLowerCase();
+
+  const filtered = query
+    ? state.exercises.filter((ex) => ex.name.toLowerCase().includes(query) || (ex.muscle_group || "").toLowerCase().includes(query))
+    : state.exercises;
+
   select.innerHTML = "";
-  state.exercises.forEach((ex) => {
+
+  if (filtered.length === 0) {
+    const opt = document.createElement("option");
+    opt.textContent = "Brak wyników";
+    opt.disabled = true;
+    select.appendChild(opt);
+    return;
+  }
+
+  filtered.forEach((ex) => {
     const opt = document.createElement("option");
     opt.value = ex.id;
     opt.textContent = ex.muscle_group ? `${ex.name} (${ex.muscle_group})` : ex.name;
     select.appendChild(opt);
   });
+
+  // Zachowaj poprzedni wybór, jeśli dalej pasuje do filtra
+  if (filtered.some((ex) => String(ex.id) === previousValue)) {
+    select.value = previousValue;
+  }
 }
+
+document.getElementById("add-set-exercise-search").addEventListener("input", (e) => {
+  populateExerciseSelect(e.target.value);
+});
 
 function renderWorkoutDetail(workout) {
   document.getElementById("workout-detail-date").textContent = formatDate(workout.workout_date);
@@ -259,6 +396,27 @@ function renderWorkoutDetail(workout) {
     groupsEl.appendChild(groupEl);
   });
 }
+
+document.getElementById("quick-add-exercise-toggle").addEventListener("click", () => {
+  const panel = document.getElementById("quick-add-exercise-panel");
+  const isHidden = panel.style.display === "none";
+  panel.style.display = isHidden ? "flex" : "none";
+});
+
+document.getElementById("quick-add-exercise-btn").addEventListener("click", async () => {
+  const name = document.getElementById("quick-exercise-name").value;
+  const muscle = document.getElementById("quick-exercise-muscle").value;
+  try {
+    const exercise = await createExercise(name, muscle);
+    populateExerciseSelect();
+    document.getElementById("add-set-exercise").value = exercise.id;
+    document.getElementById("quick-exercise-name").value = "";
+    document.getElementById("quick-exercise-muscle").value = "";
+    document.getElementById("quick-add-exercise-panel").style.display = "none";
+  } catch (err) {
+    alert(err.message);
+  }
+});
 
 document.getElementById("add-set-btn").addEventListener("click", async () => {
   const exercise_id = parseInt(document.getElementById("add-set-exercise").value, 10);

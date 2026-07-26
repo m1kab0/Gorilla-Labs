@@ -10,8 +10,11 @@
 <div id="app">
 
   <header class="topbar">
-    <div class="brand"><span class="plate-dot"></span>dziennik treningowy</div>
-    <button class="link" id="logout-btn" style="display:none;">Wyloguj</button>
+    <div class="brand"><span class="plate-dot"></span>Dziennik treningowy</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <button class="link" id="nav-exercises-btn" style="display:none;">Ćwiczenia</button>
+      <button class="link" id="logout-btn" style="display:none;">Wyloguj</button>
+    </div>
   </header>
 
   <!-- LOGOWANIE -->
@@ -65,6 +68,40 @@
     <div class="workout-list" id="workout-list"></div>
   </section>
 
+  <!-- ĆWICZENIA (zarządzanie własnymi) -->
+  <section class="view" id="view-exercises">
+    <button class="back-link" id="exercises-back-to-list">← Wszystkie treningi</button>
+    <h1 class="view-title">Twoje ćwiczenia</h1>
+    <p class="view-subtitle">Dodawaj własne ćwiczenia — widzisz je tylko Ty, inni użytkownicy ich nie zobaczą.</p>
+
+    <div class="field">
+      <input type="text" id="exercises-page-search" placeholder="🔍 Szukaj ćwiczenia..." autocomplete="off">
+    </div>
+
+    <div class="add-set-panel">
+      <div class="field">
+        <label for="new-exercise-name">Nazwa ćwiczenia</label>
+        <input type="text" id="new-exercise-name" placeholder="np. Wyciskanie hantli na skosie">
+      </div>
+      <div class="field">
+        <label for="new-exercise-muscle">Partia mięśniowa (opcjonalnie)</label>
+        <input type="text" id="new-exercise-muscle" placeholder="np. klatka piersiowa">
+      </div>
+      <button class="primary" id="create-exercise-btn">+ Dodaj ćwiczenie</button>
+      <div class="error-banner" id="exercise-error"></div>
+    </div>
+
+    <div>
+      <div class="exercise-header" style="border-radius:4px; margin-bottom:10px;">Twoje własne</div>
+      <div id="own-exercise-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+    </div>
+
+    <div>
+      <div class="exercise-header" style="border-radius:4px; margin-bottom:10px;">Globalne (dostępne dla wszystkich)</div>
+      <div id="global-exercise-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+    </div>
+  </section>
+
   <!-- SZCZEGÓŁY TRENINGU -->
   <section class="view" id="view-workout-detail">
     <button class="back-link" id="back-to-list">← Wszystkie treningi</button>
@@ -74,7 +111,17 @@
     <div class="add-set-panel">
       <div class="field">
         <label for="add-set-exercise">Ćwiczenie</label>
+        <input type="text" id="add-set-exercise-search" placeholder="🔍 Szukaj ćwiczenia..." autocomplete="off">
         <select id="add-set-exercise"></select>
+        <button type="button" class="link" id="quick-add-exercise-toggle" style="align-self:flex-start; padding:2px 0;">+ Nie ma Twojego ćwiczenia? Dodaj nowe</button>
+      </div>
+
+      <div class="field" id="quick-add-exercise-panel" style="display:none; border-top:1px solid var(--line); padding-top:12px;">
+        <label for="quick-exercise-name">Nazwa nowego ćwiczenia</label>
+        <input type="text" id="quick-exercise-name" placeholder="np. Wyciskanie hantli na skosie">
+        <label for="quick-exercise-muscle" style="margin-top:8px;">Partia mięśniowa (opcjonalnie)</label>
+        <input type="text" id="quick-exercise-muscle" placeholder="np. klatka piersiowa">
+        <button type="button" class="secondary" id="quick-add-exercise-btn" style="margin-top:8px;">Dodaj i wybierz</button>
       </div>
       <div class="row-3">
         <div class="field">
