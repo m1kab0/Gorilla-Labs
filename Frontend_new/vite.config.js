@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon-192.png', 'icon-512.png'],
       manifest: {
-        name: 'Żelazo — dziennik treningowy',
-        short_name: 'Żelazo',
+        name: 'Gorilla — dziennik treningowy',
+        short_name: 'Gorilla',
         description: 'Zliczanie serii, powtórzeń i ciężarów na siłowni',
         theme_color: '#2B2925',
         background_color: '#2B2925',
