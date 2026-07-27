@@ -1,6 +1,6 @@
 """
 Jednorazowy skrypt wypełniający bazę popularnymi, globalnymi ćwiczeniami.
-Uruchom po migracjach: python -m app.seed_exercises
+Uruchom po migracjach: python -m scripts.seed_exercises
 """
 from core.database import SessionLocal
 import models

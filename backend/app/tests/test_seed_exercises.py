@@ -1,4 +1,4 @@
-from seed_exercises import DEFAULT_EXERCISES
+from scripts.seed_exercises import DEFAULT_EXERCISES
 
 
 def test_default_exercises_have_name_and_muscle_group():
