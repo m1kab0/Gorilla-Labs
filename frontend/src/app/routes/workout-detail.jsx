@@ -34,7 +34,10 @@ export default function WorkoutDetailRoute() {
   }
 
   function updatePlanEntry(exerciseId, field, value) {
-    setPlanEntries((prev) => ({ ...prev, [exerciseId]: { ...entryFor(exerciseId), [field]: value } }));
+    setPlanEntries((prev) => ({
+      ...prev,
+      [exerciseId]: { reps: '', weight: '', ...prev[exerciseId], [field]: value },
+    }));
   }
 
   async function handleAddSetFromPlan(exerciseId) {
