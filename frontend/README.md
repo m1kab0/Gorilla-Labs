@@ -13,26 +13,8 @@ listę ćwiczeń z docelową liczbą serii/powtórzeń, a "Zacznij trening" twor
 nowy trening z gotowymi polami do wypełnienia (tylko reps/kg) dla każdego
 ćwiczenia z planu, bez ręcznego ich wyszukiwania.
 
-**Wymaga rozszerzenia backendu** — patrz sekcja niżej.
-
-## Wymagane zmiany w backendzie (dla planów treningowych)
-
-Ta wersja frontendu korzysta z endpointów `/plans/*`, których backend jeszcze
-może nie mieć. Jeśli `GET /plans/` w Swaggerze (`/docs`) nie istnieje, trzeba
-dodać:
-
-1. W `models.py`: pole `plan_id` w klasie `Workout` (`ForeignKey("workout_plans.id")`,
-   `nullable=True`) oraz nowe klasy `WorkoutPlan` i `PlanExercise`.
-2. W `schemas.py`: pole `plan_id` w `WorkoutCreate`/`WorkoutOut` oraz nowe
-   schematy `PlanExerciseCreate`, `PlanExerciseOut`, `WorkoutPlanCreate`,
-   `WorkoutPlanOut`.
-3. Nowy plik `routers/plans.py` z endpointami CRUD dla planów + `POST /plans/{id}/start`.
-4. W `main.py`: `from routers import auth, exercises, workouts, plans` i
-   `app.include_router(plans.router)`.
-5. Migracja: `alembic revision --autogenerate -m "add workout plans"` i
-   `alembic upgrade head`.
-
-Pełny kod tych zmian został przekazany osobno w rozmowie z Claude.
+Plany treningowe są w pełni zaimplementowane, wraz z odpowiadającym im
+backendem (`/plans/*`).
 
 ## Uruchomienie lokalne
 
@@ -108,19 +90,28 @@ usuwa ten limit.
 
 ```
 src/
-├── lib/
-│   ├── api.js              - wywołania do backendu + zarządzanie tokenem
-│   └── AuthContext.jsx      - stan zalogowanego użytkownika (React Context)
+├── app/
+│   ├── app.jsx              - punkt złożenia: provider + router
+│   ├── provider.jsx          - QueryClientProvider (TanStack Query)
+│   ├── router.jsx             - tabela tras
+│   └── routes/                 - cienkie strony, jedna na trasę
 ├── components/
-│   ├── ProtectedLayout.jsx  - layout dla stron wymagających logowania
-│   └── PublicLayout.jsx     - layout dla logowania/rejestracji
-├── pages/
-│   ├── Login.jsx
-│   ├── Register.jsx
-│   ├── Workouts.jsx         - lista treningów
-│   ├── WorkoutDetail.jsx    - szczegóły treningu, dodawanie serii
-│   └── Exercises.jsx        - zarządzanie własnymi ćwiczeniami
-├── styles.css               - design tokens (te same co w poprzedniej wersji)
-├── App.jsx                  - routing
-└── main.jsx                 - punkt wejścia
+│   ├── ui/                     - Button, TextField, Select, ErrorBanner, EmptyState, Skeleton
+│   └── layout/                  - ProtectedLayout, PublicLayout
+├── features/
+│   ├── auth/                     - LoginForm, RegisterForm
+│   ├── workouts/                  - api/, components/, utils/, index.js
+│   ├── exercises/                  - api/, components/, index.js
+│   └── plans/                       - api/, components/, index.js
+├── lib/
+│   ├── api-client.js                 - wywołania do backendu + zarządzanie tokenem
+│   ├── auth.jsx                       - useUser/useLogin/useRegister/useLogout (TanStack Query)
+│   └── react-query.js                  - instancja QueryClient
+├── hooks/
+│   └── useExitTransition.js              - collapse-on-delete dla list
+├── config/
+│   └── env.js                              - odczyt zmiennych środowiskowych
+├── styles/
+│   └── globals.css                          - Tailwind + design tokeny + keyframes
+└── main.jsx
 ```
