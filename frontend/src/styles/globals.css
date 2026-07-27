@@ -2,17 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
 
 @theme {
-  --color-bg: #2B2925;
-  --color-surface: #3A362F;
-  --color-surface-raised: #443F37;
-  --color-line: #4E483F;
-  --color-text: #F0EDE4;
-  --color-text-muted: #B5AC9C;
-  --color-accent: #C24A36;
-  --color-accent-hover: #C64F3A;
-  --color-accent-gold: #D9A441;
-  --color-accent-text: #EA8E70;
-  --color-danger-bg: rgba(194, 74, 54, 0.15);
+  --color-bg: #1A1C1E;
+  --color-surface: #24272A;
+  --color-surface-raised: #2E3236;
+  --color-line: #3B4045;
+  --color-text: #EDEEF0;
+  --color-text-muted: #A0A7AE;
+  --color-accent: #B7228C;
+  --color-accent-hover: #CB2A9C;
+  --color-accent-light: #E85FBE;
+  --color-accent-text: #F59AD8;
+  --color-danger-bg: rgba(183, 34, 140, 0.15);
 
   --font-display: 'Oswald', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -46,7 +46,7 @@ html, body { margin: 0; padding: 0; }
 
 body {
   background: var(--color-bg);
-  background-image: radial-gradient(circle at 1px 1px, rgba(240, 237, 228, 0.035) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(237, 238, 240, 0.04) 1px, transparent 0);
   background-size: 22px 22px;
   color: var(--color-text);
   font-family: var(--font-body);

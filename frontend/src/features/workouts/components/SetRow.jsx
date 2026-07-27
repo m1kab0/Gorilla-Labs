@@ -18,7 +18,7 @@ export default function SetRow({ set, index, maxWeight, onDelete }) {
         <span className="text-[11px] text-text-muted">reps</span>
         {set.weight_kg ? (
           <>
-            <span className="text-accent-gold">{set.weight_kg}</span>
+            <span className="text-accent-light">{set.weight_kg}</span>
             <span className="text-[11px] text-text-muted">kg</span>
           </>
         ) : null}

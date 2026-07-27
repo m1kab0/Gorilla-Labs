@@ -50,7 +50,7 @@ export default function AddSetForm({ exercises, hasPlan, onSubmit }) {
           autoComplete="off"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded border border-line bg-surface px-3.5 py-3 font-body text-[15px] text-text focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-accent-gold"
+          className="w-full rounded border border-line bg-surface px-3.5 py-3 font-body text-[15px] text-text focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-accent-light"
         />
         <Select value={selectedExerciseId} onChange={(e) => setSelectedExerciseId(e.target.value)} className="mt-2">
           <option value="" disabled>

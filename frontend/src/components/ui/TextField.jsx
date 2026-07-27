@@ -19,7 +19,7 @@ export default function TextField({ label, id, invalid = false, className = '', 
       )}
       <input
         id={id}
-        className={`w-full rounded border bg-surface px-3.5 py-3 font-body text-[15px] text-text focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-accent-gold ${
+        className={`w-full rounded border bg-surface px-3.5 py-3 font-body text-[15px] text-text focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-accent-light ${
           invalid ? 'border-accent-text' : 'border-line'
         } ${shake ? 'animate-shake' : ''} ${className}`}
         {...props}
