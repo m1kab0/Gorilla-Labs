@@ -55,6 +55,15 @@ def create_plan(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
+    exercise_ids = {pe_in.exercise_id for pe_in in plan_in.exercises}
+    if exercise_ids:
+        found_ids = {
+            e.id
+            for e in db.query(models.Exercise.id).filter(models.Exercise.id.in_(exercise_ids)).all()
+        }
+        if found_ids != exercise_ids:
+            raise HTTPException(status_code=404, detail="Nie znaleziono ćwiczenia")
+
     plan = models.WorkoutPlan(owner_id=current_user.id, name=plan_in.name)
     for pe_in in plan_in.exercises:
         plan.plan_exercises.append(
