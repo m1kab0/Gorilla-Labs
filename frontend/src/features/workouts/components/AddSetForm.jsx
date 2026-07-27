@@ -72,6 +72,7 @@ export default function AddSetForm({ exercises, hasPlan, onSubmit }) {
           <ExerciseForm
             onCreated={(exercise) => {
               setSelectedExerciseId(String(exercise.id));
+              setSearch('');
               setQuickAddOpen(false);
             }}
           />

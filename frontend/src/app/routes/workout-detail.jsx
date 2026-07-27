@@ -29,12 +29,12 @@ export default function WorkoutDetailRoute() {
 
   const [planEntries, setPlanEntries] = useState({});
 
-  function updatePlanEntry(exerciseId, field, value) {
-    setPlanEntries((prev) => ({ ...prev, [exerciseId]: { ...prev[exerciseId], [field]: value } }));
+  function entryFor(exerciseId) {
+    return { reps: '', weight: '', ...planEntries[exerciseId] };
   }
 
-  function entryFor(exerciseId) {
-    return planEntries[exerciseId] || { reps: '', weight: '' };
+  function updatePlanEntry(exerciseId, field, value) {
+    setPlanEntries((prev) => ({ ...prev, [exerciseId]: { ...entryFor(exerciseId), [field]: value } }));
   }
 
   async function handleAddSetFromPlan(exerciseId) {
@@ -52,8 +52,12 @@ export default function WorkoutDetailRoute() {
 
   async function handleDeleteWorkout() {
     if (!confirm('Usunąć ten trening razem z wszystkimi seriami? Tej operacji nie można odwrócić.')) return;
-    await deleteWorkout.mutateAsync(id);
-    navigate('/workouts');
+    try {
+      await deleteWorkout.mutateAsync(id);
+      navigate('/workouts');
+    } catch {
+      // handled via deleteWorkout.error rendered in <ErrorBanner>
+    }
   }
 
   const groups = useMemo(() => {
@@ -96,6 +100,8 @@ export default function WorkoutDetailRoute() {
       <h1 className="m-0 font-display text-[28px] font-semibold tracking-wide">
         {formatWorkoutDate(workout.workout_date)}
       </h1>
+
+      <ErrorBanner>{deleteWorkout.error?.message}</ErrorBanner>
 
       {plan && (
         <div>
