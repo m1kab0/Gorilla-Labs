@@ -23,7 +23,6 @@ def test_set_create_defaults_set_number_to_one():
     s = schemas.SetCreate(exercise_id=1, reps=10)
     assert s.set_number == 1
     assert s.weight_kg is None
-    assert s.rpe is None
 
 
 def test_set_create_requires_reps():

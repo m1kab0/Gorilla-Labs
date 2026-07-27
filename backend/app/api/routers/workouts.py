@@ -105,7 +105,6 @@ def add_set(
         set_number=set_in.set_number,
         reps=set_in.reps,
         weight_kg=set_in.weight_kg,
-        rpe=set_in.rpe,
     )
     db.add(set_entry)
     db.commit()

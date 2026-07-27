@@ -54,7 +54,7 @@ class SetCreate(BaseModel):
     set_number: int = 1
     reps: int
     weight_kg: Optional[float] = None
-    rpe: Optional[float] = None
+    # rpe removed: SetEntry.rpe is currently commented out in models.py
 
 
 class SetOut(BaseModel):
@@ -66,7 +66,6 @@ class SetOut(BaseModel):
     set_number: int
     reps: int
     weight_kg: Optional[float] = None
-    rpe: Optional[float] = None
 
 
 # ---------- Workout ----------
