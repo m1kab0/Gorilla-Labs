@@ -1,0 +1,63 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+@theme {
+  --color-bg: #2B2925;
+  --color-surface: #3A362F;
+  --color-surface-raised: #443F37;
+  --color-line: #4E483F;
+  --color-text: #F0EDE4;
+  --color-text-muted: #B5AC9C;
+  --color-accent: #C24A36;
+  --color-accent-hover: #C64F3A;
+  --color-accent-gold: #D9A441;
+  --color-accent-text: #EA8E70;
+  --color-danger-bg: rgba(194, 74, 54, 0.15);
+
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --radius-DEFAULT: 4px;
+
+  --animate-rise: rise 0.45s ease backwards;
+  --animate-shimmer: shimmer 1.3s ease-in-out infinite;
+  --animate-shake: shake 0.32s ease;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 150% 0; }
+  100% { background-position: -50% 0; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--color-bg);
+  background-image: radial-gradient(circle at 1px 1px, rgba(240, 237, 228, 0.035) 1px, transparent 0);
+  background-size: 22px 22px;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  max-width: 560px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
