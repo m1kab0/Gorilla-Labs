@@ -1,4 +1,4 @@
-# Żelazo — frontend (React + Vite + PWA)
+# Gorilla — frontend (React + Vite + PWA)
 
 Przepisana wersja frontendu na React, zachowująca identyczny wygląd i funkcje
 poprzedniej wersji (vanilla JS): logowanie, treningi, serie z wizualizacją
