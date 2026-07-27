@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.routers import auth, exercises, workouts
+from api.routers import auth, exercises, workouts, plans
 
 app = FastAPI(
     title="Gym Tracker API",
@@ -21,6 +21,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(exercises.router)
 app.include_router(workouts.router)
+app.include_router(plans.router)
 
 
 @app.get("/health", tags=["System"])
