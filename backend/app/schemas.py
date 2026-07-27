@@ -83,4 +83,39 @@ class WorkoutOut(BaseModel):
     workout_date: date
     notes: Optional[str] = None
     created_at: datetime
+    plan_id: Optional[int] = None
     sets: list[SetOut] = []
+
+
+# ---------- Plan ----------
+
+class PlanExerciseCreate(BaseModel):
+    exercise_id: int
+    order_index: int = 0
+    target_sets: Optional[int] = None
+    target_reps: Optional[int] = None
+
+
+class PlanExerciseOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    exercise_id: int
+    exercise_name: Optional[str] = None
+    order_index: int
+    target_sets: Optional[int] = None
+    target_reps: Optional[int] = None
+
+
+class WorkoutPlanCreate(BaseModel):
+    name: str
+    exercises: list[PlanExerciseCreate] = []
+
+
+class WorkoutPlanOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    name: str
+    created_at: datetime
+    exercises: list[PlanExerciseOut] = []

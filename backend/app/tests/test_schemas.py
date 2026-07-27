@@ -35,3 +35,25 @@ def test_workout_create_allows_all_fields_to_be_omitted():
     w = schemas.WorkoutCreate()
     assert w.workout_date is None
     assert w.notes is None
+
+
+def test_plan_exercise_create_defaults_order_index_to_zero():
+    pe = schemas.PlanExerciseCreate(exercise_id=1)
+    assert pe.order_index == 0
+    assert pe.target_sets is None
+    assert pe.target_reps is None
+
+
+def test_plan_exercise_create_requires_exercise_id():
+    with pytest.raises(ValidationError):
+        schemas.PlanExerciseCreate()
+
+
+def test_workout_plan_create_allows_empty_exercise_list():
+    plan = schemas.WorkoutPlanCreate(name="Push day")
+    assert plan.exercises == []
+
+
+def test_workout_plan_create_requires_name():
+    with pytest.raises(ValidationError):
+        schemas.WorkoutPlanCreate(exercises=[])
