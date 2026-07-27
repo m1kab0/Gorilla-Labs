@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icon-192.png', 'icon-512.png'],
+      includeAssets: ['Gorilla.jpeg', 'Gorilla.jpeg'],
       manifest: {
         name: 'Gorilla — dziennik treningowy',
         short_name: 'Gorilla',
@@ -17,9 +17,9 @@ export default defineConfig({
         display: 'standalone',
         start_url: '/',
         icons: [
-          { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          { src: 'Gorilla.jpeg', sizes: '192x192', type: 'image/jpeg' },
+          { src: 'Gorilla.jpeg', sizes: '512x512', type: 'image/jpeg' },
+          { src: 'Gorilla.jpeg', sizes: '512x512', type: 'image/jpeg', purpose: 'maskable' },
         ],
       },
       workbox: {

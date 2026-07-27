@@ -71,7 +71,7 @@ class SetEntry(Base):
     set_number = Column(Integer, nullable=False, default=1)
     reps = Column(Integer, nullable=False)
     weight_kg = Column(Float, nullable=True)
-    rpe = Column(Float, nullable=True)  # subiektywne odczucie wysiłku (opcjonalne, 1-10)
+    #rpe = Column(Float, nullable=True)  # subiektywne odczucie wysiłku (opcjonalne, 1-10)
 
     workout = relationship("Workout", back_populates="sets")
     exercise = relationship("Exercise", back_populates="sets")
