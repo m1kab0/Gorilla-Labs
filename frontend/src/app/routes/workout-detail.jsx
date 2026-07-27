@@ -105,6 +105,7 @@ export default function WorkoutDetailRoute() {
       </h1>
 
       <ErrorBanner>{deleteWorkout.error?.message}</ErrorBanner>
+      <ErrorBanner>{addSet.error?.message}</ErrorBanner>
 
       {plan && (
         <div>

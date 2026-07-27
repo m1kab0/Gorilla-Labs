@@ -31,6 +31,7 @@ export default function PlansRoute() {
       <p className="-mt-3.5 mb-1 text-sm text-text-muted">Ułóż plan raz, odpalaj trening jednym kliknięciem.</p>
 
       <ErrorBanner>{deletePlan.error?.message}</ErrorBanner>
+      <ErrorBanner>{startPlan.error?.message}</ErrorBanner>
 
       {isLoading ? (
         <div className="flex flex-col gap-2.5">

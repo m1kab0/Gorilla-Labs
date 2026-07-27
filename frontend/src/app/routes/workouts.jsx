@@ -38,6 +38,7 @@ export default function WorkoutsRoute() {
       </div>
 
       <ErrorBanner>{deleteWorkout.error?.message}</ErrorBanner>
+      <ErrorBanner>{createWorkout.error?.message}</ErrorBanner>
 
       {isLoading ? (
         <div className="flex flex-col gap-2.5">

@@ -1,6 +1,7 @@
 from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import or_
 from sqlalchemy.orm import Session, joinedload
 
 import models, schemas
@@ -59,7 +60,12 @@ def create_plan(
     if exercise_ids:
         found_ids = {
             e.id
-            for e in db.query(models.Exercise.id).filter(models.Exercise.id.in_(exercise_ids)).all()
+            for e in db.query(models.Exercise.id)
+            .filter(
+                models.Exercise.id.in_(exercise_ids),
+                or_(models.Exercise.is_global == True, models.Exercise.owner_id == current_user.id),
+            )
+            .all()
         }
         if found_ids != exercise_ids:
             raise HTTPException(status_code=404, detail="Nie znaleziono ćwiczenia")
