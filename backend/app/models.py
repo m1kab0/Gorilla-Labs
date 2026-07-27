@@ -27,6 +27,7 @@ class User(Base):
 
     workouts = relationship("Workout", back_populates="owner", cascade="all, delete-orphan")
     exercises = relationship("Exercise", back_populates="owner", cascade="all, delete-orphan")
+    workout_plans = relationship("WorkoutPlan", back_populates="owner", cascade="all, delete-orphan")
 
 
 class Exercise(Base):
@@ -54,6 +55,7 @@ class Workout(Base):
     workout_date = Column(Date, default=date.today, nullable=False)
     notes = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+    plan_id = Column(Integer, ForeignKey("workout_plans.id", ondelete="SET NULL"), nullable=True)
 
     owner = relationship("User", back_populates="workouts")
     sets = relationship("SetEntry", back_populates="workout", cascade="all, delete-orphan", order_by="SetEntry.id")
@@ -75,3 +77,38 @@ class SetEntry(Base):
 
     workout = relationship("Workout", back_populates="sets")
     exercise = relationship("Exercise", back_populates="sets")
+
+
+class WorkoutPlan(Base):
+    """Szablon treningu: lista ćwiczeń z docelową liczbą serii/powtórzeń."""
+
+    __tablename__ = "workout_plans"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    name = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    owner = relationship("User", back_populates="workout_plans")
+    plan_exercises = relationship(
+        "PlanExercise",
+        back_populates="plan",
+        cascade="all, delete-orphan",
+        order_by="PlanExercise.order_index",
+    )
+
+
+class PlanExercise(Base):
+    """Pojedyncze ćwiczenie w planie, z docelową liczbą serii/powtórzeń."""
+
+    __tablename__ = "plan_exercises"
+
+    id = Column(Integer, primary_key=True, index=True)
+    plan_id = Column(Integer, ForeignKey("workout_plans.id"), nullable=False)
+    exercise_id = Column(Integer, ForeignKey("exercises.id"), nullable=False)
+    order_index = Column(Integer, nullable=False, default=0)
+    target_sets = Column(Integer, nullable=True)
+    target_reps = Column(Integer, nullable=True)
+
+    plan = relationship("WorkoutPlan", back_populates="plan_exercises")
+    exercise = relationship("Exercise")
