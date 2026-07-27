@@ -3,8 +3,9 @@ from datetime import date
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
 
-import models, schemas, auth
-from database import get_db
+import models, schemas
+from core.database import get_db
+from api.deps import get_current_user
 
 router = APIRouter(prefix="/workouts", tags=["Treningi"])
 
@@ -24,7 +25,7 @@ def _to_workout_out(workout: models.Workout) -> schemas.WorkoutOut:
 @router.get("/", response_model=list[schemas.WorkoutOut])
 def list_workouts(
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(auth.get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
     workouts = (
         db.query(models.Workout)
@@ -40,7 +41,7 @@ def list_workouts(
 def create_workout(
     workout_in: schemas.WorkoutCreate,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(auth.get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
     workout = models.Workout(
         owner_id=current_user.id,
@@ -68,7 +69,7 @@ def _get_owned_workout(workout_id: int, db: Session, current_user: models.User) 
 def get_workout(
     workout_id: int,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(auth.get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
     workout = _get_owned_workout(workout_id, db, current_user)
     return _to_workout_out(workout)
@@ -78,7 +79,7 @@ def get_workout(
 def delete_workout(
     workout_id: int,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(auth.get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
     workout = _get_owned_workout(workout_id, db, current_user)
     db.delete(workout)
@@ -90,7 +91,7 @@ def add_set(
     workout_id: int,
     set_in: schemas.SetCreate,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(auth.get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
     workout = _get_owned_workout(workout_id, db, current_user)
 
@@ -116,7 +117,7 @@ def add_set(
 def delete_set(
     set_id: int,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(auth.get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
     set_entry = (
         db.query(models.SetEntry)

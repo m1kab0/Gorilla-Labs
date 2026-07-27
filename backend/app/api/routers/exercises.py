@@ -2,8 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
-import models, schemas, auth
-from database import get_db
+import models, schemas
+from core.database import get_db
+from api.deps import get_current_user
 
 router = APIRouter(prefix="/exercises", tags=["Ćwiczenia"])
 
@@ -11,7 +12,7 @@ router = APIRouter(prefix="/exercises", tags=["Ćwiczenia"])
 @router.get("/", response_model=list[schemas.ExerciseOut])
 def list_exercises(
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(auth.get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
     """Zwraca ćwiczenia globalne + własne ćwiczenia użytkownika."""
     return (
@@ -26,7 +27,7 @@ def list_exercises(
 def create_exercise(
     exercise_in: schemas.ExerciseCreate,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(auth.get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
     exercise = models.Exercise(
         name=exercise_in.name,
@@ -44,7 +45,7 @@ def create_exercise(
 def delete_exercise(
     exercise_id: int,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(auth.get_current_user),
+    current_user: models.User = Depends(get_current_user),
 ):
     exercise = (
         db.query(models.Exercise)

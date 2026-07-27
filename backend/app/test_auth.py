@@ -2,35 +2,35 @@ import time
 
 from jose import jwt
 
-import auth
-from database import settings
+from core import security
+from core.config import settings
 
 
 def test_hash_password_produces_different_hash_each_time():
     #bcrypt losuje seed, więc identyczne hasło daje różne hashe.
-    hashed1 = auth.hash_password("mypassword123")
-    hashed2 = auth.hash_password("mypassword123")
+    hashed1 = security.hash_password("mypassword123")
+    hashed2 = security.hash_password("mypassword123")
     assert hashed1 != hashed2
 
 
 def test_verify_password_accepts_correct_password():
-    hashed = auth.hash_password("correct-horse-battery-staple")
-    assert auth.verify_password("correct-horse-battery-staple", hashed) is True
+    hashed = security.hash_password("correct-horse-battery-staple")
+    assert security.verify_password("correct-horse-battery-staple", hashed) is True
 
 
 def test_verify_password_rejects_wrong_password():
-    hashed = auth.hash_password("correct-horse-battery-staple")
-    assert auth.verify_password("wrong-password", hashed) is False
+    hashed = security.hash_password("correct-horse-battery-staple")
+    assert security.verify_password("wrong-password", hashed) is False
 
 
 def test_create_access_token_contains_subject_and_is_decodable():
-    token = auth.create_access_token(data={"sub": "42"})
+    token = security.create_access_token(data={"sub": "42"})
     payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
     assert payload["sub"] == "42"
     assert "exp" in payload
 
 
 def test_create_access_token_expiry_is_in_the_future():
-    token = auth.create_access_token(data={"sub": "1"})
+    token = security.create_access_token(data={"sub": "1"})
     payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
     assert payload["exp"] > time.time()

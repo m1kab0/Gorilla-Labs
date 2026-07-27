@@ -2,7 +2,7 @@
 Jednorazowy skrypt wypełniający bazę popularnymi, globalnymi ćwiczeniami.
 Uruchom po migracjach: python -m app.seed_exercises
 """
-from database import SessionLocal
+from core.database import SessionLocal
 import models
 
 DEFAULT_EXERCISES = [
