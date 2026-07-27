@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/ui/Button';
 import Skeleton from '../../components/ui/Skeleton';
+import ErrorBanner from '../../components/ui/ErrorBanner';
 import { useExercises, useDeleteExercise, ExerciseList, ExerciseForm } from '../../features/exercises';
 
 export default function ExercisesRoute() {
@@ -48,6 +49,7 @@ export default function ExercisesRoute() {
         <div className="mb-2.5 rounded bg-surface-raised px-3.5 py-2.5 font-display text-[15px] uppercase tracking-wide">
           Twoje własne
         </div>
+        <ErrorBanner>{deleteExercise.error?.message}</ErrorBanner>
         {isLoading ? (
           <div className="flex flex-col gap-2">
             <Skeleton />
@@ -61,7 +63,7 @@ export default function ExercisesRoute() {
                 ? 'Brak własnych ćwiczeń pasujących do wyszukiwania.'
                 : 'Nie masz jeszcze własnych ćwiczeń. Dodaj pierwsze powyżej.'
             }
-            onDelete={(ex) => deleteExercise.mutate(ex.id)}
+            onDelete={(ex) => deleteExercise.mutateAsync(ex.id)}
           />
         )}
       </div>

@@ -3,15 +3,19 @@ import ExerciseListItem from './ExerciseListItem';
 import { useExitTransition } from '../../../hooks/useExitTransition';
 
 export default function ExerciseList({ exercises, emptyMessage, onDelete }) {
-  const { startExit, isExiting } = useExitTransition();
+  const { startExit, cancelExit, isExiting } = useExitTransition();
 
   if (exercises.length === 0) {
     return <EmptyState>{emptyMessage}</EmptyState>;
   }
 
-  function handleDelete(exercise) {
+  async function handleDelete(exercise) {
     startExit(exercise.id);
-    onDelete(exercise);
+    try {
+      await onDelete(exercise);
+    } catch {
+      cancelExit(exercise.id);
+    }
   }
 
   return (

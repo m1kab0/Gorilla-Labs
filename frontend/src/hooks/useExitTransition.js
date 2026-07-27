@@ -14,7 +14,15 @@ export function useExitTransition() {
     setExitingKeys((prev) => new Set(prev).add(key));
   }, []);
 
+  const cancelExit = useCallback((key) => {
+    setExitingKeys((prev) => {
+      const next = new Set(prev);
+      next.delete(key);
+      return next;
+    });
+  }, []);
+
   const isExiting = useCallback((key) => exitingKeys.has(key), [exitingKeys]);
 
-  return { startExit, isExiting };
+  return { startExit, cancelExit, isExiting };
 }
