@@ -10,7 +10,8 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from database import Base, settings
+from core.database import Base
+from core.config import settings
 import models  # noqa: F401 - import żeby modele zarejestrowały się w Base.metadata
 
 # this is the Alembic Config object, which provides
