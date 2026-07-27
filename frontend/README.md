@@ -56,8 +56,8 @@ npm install @capacitor/core @capacitor/cli
 npx cap init
 ```
 Podczas `cap init` podaj:
-- App name: `Żelazo`
-- App Package ID: np. `pl.twojanazwa.zelazo` (format odwróconej domeny)
+- App name: `Gorilla`
+- App Package ID: np. `pl.twojanazwa.gorilla` (format odwróconej domeny)
 
 ### 2. Dodaj platformę iOS
 ```bash
