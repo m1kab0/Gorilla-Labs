@@ -16,7 +16,7 @@ export default function PlanCard({ plan, onStart, onDelete, starting }) {
           {starting ? 'Startuję…' : 'Zacznij trening'}
         </Button>
         <button
-          className="p-1.5 text-base text-text-muted hover:text-accent-text"
+          className="p-1.5 text-base text-text-muted hover:text-danger-text"
           title="Usuń plan"
           onClick={() => onDelete(plan)}
         >

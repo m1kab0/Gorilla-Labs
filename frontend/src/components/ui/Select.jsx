@@ -8,7 +8,7 @@ export default function Select({ label, id, className = '', children, ...props }
       )}
       <select
         id={id}
-        className={`w-full rounded border border-line bg-surface px-3.5 py-3 font-body text-[15px] text-text focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-accent-gold ${className}`}
+        className={`w-full rounded border border-line bg-surface px-3.5 py-3 font-body text-[15px] text-text focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-accent ${className}`}
         {...props}
       >
         {children}

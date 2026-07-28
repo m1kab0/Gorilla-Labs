@@ -50,7 +50,7 @@ export default function LoginForm() {
       </form>
       <div className="text-center text-[13px] text-text-muted">
         Nie masz konta?{' '}
-        <Link to="/register" className="text-accent-gold underline">
+        <Link to="/register" className="text-accent underline">
           Zarejestruj się
         </Link>
       </div>

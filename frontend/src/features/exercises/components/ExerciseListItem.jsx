@@ -11,7 +11,7 @@ export default function ExerciseListItem({ exercise, onDelete }) {
       </div>
       {onDelete && (
         <button
-          className="p-1.5 text-base text-text-muted hover:text-accent-text"
+          className="p-1.5 text-base text-text-muted hover:text-danger-text"
           title="Usuń ćwiczenie"
           onClick={() => onDelete(exercise)}
         >

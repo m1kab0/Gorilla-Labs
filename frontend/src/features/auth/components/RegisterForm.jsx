@@ -60,7 +60,7 @@ export default function RegisterForm() {
       </form>
       <div className="text-center text-[13px] text-text-muted">
         Masz już konto?{' '}
-        <Link to="/login" className="text-accent-gold underline">
+        <Link to="/login" className="text-accent underline">
           Zaloguj się
         </Link>
       </div>

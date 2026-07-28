@@ -14,8 +14,8 @@ export default defineConfig({
         name: 'Gorilla — dziennik treningowy',
         short_name: 'Gorilla',
         description: 'Zliczanie serii, powtórzeń i ciężarów na siłowni',
-        theme_color: '#2B2925',
-        background_color: '#2B2925',
+        theme_color: '#1B1B1B',
+        background_color: '#1B1B1B',
         display: 'standalone',
         start_url: '/',
         icons: [

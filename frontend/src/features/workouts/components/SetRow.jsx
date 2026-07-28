@@ -18,12 +18,12 @@ export default function SetRow({ set, index, maxWeight, onDelete }) {
         <span className="text-[11px] text-text-muted">reps</span>
         {set.weight_kg ? (
           <>
-            <span className="text-accent-gold">{set.weight_kg}</span>
+            <span className="text-accent">{set.weight_kg}</span>
             <span className="text-[11px] text-text-muted">kg</span>
           </>
         ) : null}
       </div>
-      <button className="p-1.5 text-base text-text-muted hover:text-accent-text" title="Usuń serię" onClick={onDelete}>
+      <button className="p-1.5 text-base text-text-muted hover:text-danger-text" title="Usuń serię" onClick={onDelete}>
         ✕
       </button>
     </div>
