@@ -12,9 +12,9 @@ export default function PublicLayout() {
       <header className="flex flex-col items-center border-b border-line px-5 pb-[18px] pt-[calc(28px+env(safe-area-inset-top,0px))]">
         <Link
           to="/login"
-          className="flex items-center gap-2.5 font-display text-[22px] font-bold uppercase tracking-wide text-text no-underline"
+          className="flex items-center gap-2.5 font-display text-[33px] font-bold uppercase tracking-wide text-text no-underline"
         >
-          <img src="/gorilla-logo.png" alt="" className="h-9 w-9 shrink-0" />
+          <img src="/gorilla-logo.png" alt="" className="h-[150px] w-[150px] shrink-0" />
           Gorilla
         </Link>
       </header>
