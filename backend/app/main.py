@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routers import auth, exercises, workouts, plans
 
 app = FastAPI(
-    title="Gym Tracker API",
+    title="Gorilla API",
     description="Backend do zliczania powtórzeń, serii i ciężarów na siłowni",
     version="0.1.0",
 )
