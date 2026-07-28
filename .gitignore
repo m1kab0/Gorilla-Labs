@@ -14,5 +14,8 @@ dist/
 # OS
 .DS_Store
 
+# Per-machine Claude Code state (launch.json is shared, this isn't)
+.claude/settings.local.json
+
 # Superpowers brainstorming companion (used during design phase)
 .superpowers/

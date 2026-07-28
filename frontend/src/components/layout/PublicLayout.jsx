@@ -9,13 +9,13 @@ export default function PublicLayout() {
 
   return (
     <div className="flex min-h-screen flex-col pb-[env(safe-area-inset-bottom,0px)]">
-      <header className="flex items-baseline justify-between border-b border-line px-5 pb-[18px] pt-[calc(28px+env(safe-area-inset-top,0px))]">
+      <header className="flex flex-col items-center border-b border-line px-5 pb-[18px] pt-[calc(28px+env(safe-area-inset-top,0px))]">
         <Link
           to="/login"
-          className="flex items-baseline gap-2 font-display text-[22px] font-bold uppercase tracking-wide text-text no-underline"
+          className="flex items-center gap-2.5 font-display text-[22px] font-bold uppercase tracking-wide text-text no-underline"
         >
-          <span className="inline-block h-2.5 w-2.5 -translate-y-0.5 rounded-full bg-accent" />
-          Żelazo
+          <img src="/gorilla-logo.png" alt="" className="h-9 w-9 shrink-0" />
+          Gorilla
         </Link>
       </header>
       <Outlet />

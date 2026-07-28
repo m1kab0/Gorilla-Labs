@@ -1,6 +1,15 @@
 import { env } from '../config/env';
 
-const TOKEN_KEY = 'zelazo_token';
+const TOKEN_KEY = 'gorilla_token';
+const LEGACY_TOKEN_KEY = 'zelazo_token';
+
+// Przenieś token ze starego klucza, żeby zmiana nazwy nie wylogowała nikogo.
+// Do usunięcia, gdy sesje sprzed rebrandingu wygasną.
+const legacyToken = localStorage.getItem(LEGACY_TOKEN_KEY);
+if (legacyToken) {
+  if (!localStorage.getItem(TOKEN_KEY)) localStorage.setItem(TOKEN_KEY, legacyToken);
+  localStorage.removeItem(LEGACY_TOKEN_KEY);
+}
 
 export function getToken() {
   return localStorage.getItem(TOKEN_KEY);

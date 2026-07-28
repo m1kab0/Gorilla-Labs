@@ -9,19 +9,19 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['Gorilla.jpeg', 'Gorilla.jpeg'],
+      includeAssets: ['favicon-32.png', 'favicon-96.png', 'apple-touch-icon.png'],
       manifest: {
         name: 'Gorilla — dziennik treningowy',
         short_name: 'Gorilla',
         description: 'Zliczanie serii, powtórzeń i ciężarów na siłowni',
-        theme_color: '#2B2925',
-        background_color: '#2B2925',
+        theme_color: '#1B1B1B',
+        background_color: '#1B1B1B',
         display: 'standalone',
         start_url: '/',
         icons: [
-          { src: 'Gorilla.jpeg', sizes: '192x192', type: 'image/jpeg' },
-          { src: 'Gorilla.jpeg', sizes: '512x512', type: 'image/jpeg' },
-          { src: 'Gorilla.jpeg', sizes: '512x512', type: 'image/jpeg', purpose: 'maskable' },
+          { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: 'icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
       workbox: {

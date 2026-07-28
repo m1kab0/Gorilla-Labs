@@ -105,7 +105,7 @@ export default function PlanForm() {
             />
             <button
               type="button"
-              className="p-1.5 text-base text-text-muted hover:text-accent-text"
+              className="p-1.5 text-base text-text-muted hover:text-danger-text"
               title="Usuń ćwiczenie z planu"
               onClick={() => removeRow(row.rowId)}
             >

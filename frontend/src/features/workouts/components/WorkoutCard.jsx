@@ -3,7 +3,7 @@ import { formatWorkoutDate } from '../utils/format-date';
 export default function WorkoutCard({ workout, onOpen, onDelete }) {
   return (
     <div
-      className="flex cursor-pointer items-center justify-between rounded border border-line bg-surface p-4 transition-colors duration-150 hover:border-accent-gold"
+      className="flex cursor-pointer items-center justify-between rounded border border-line bg-surface p-4 transition-colors duration-150 hover:border-accent"
       onClick={() => onOpen(workout)}
     >
       <div>
@@ -11,12 +11,12 @@ export default function WorkoutCard({ workout, onOpen, onDelete }) {
         <div className="mt-0.5 text-xs text-text-muted">{workout.notes || 'Brak notatki'}</div>
       </div>
       <div className="flex items-center gap-2.5">
-        <div className="font-mono text-xl text-accent-gold [text-shadow:0_0_14px_rgba(217,164,65,0.35)]">
+        <div className="font-mono text-xl text-accent [text-shadow:0_0_14px_rgba(255,255,130,0.30)]">
           {workout.sets.length}
           <span className="text-[11px] text-text-muted"> serii</span>
         </div>
         <button
-          className="p-1.5 text-base text-text-muted hover:text-accent-text"
+          className="p-1.5 text-base text-text-muted hover:text-danger-text"
           title="Usuń trening"
           onClick={(e) => {
             e.stopPropagation();
