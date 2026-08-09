@@ -5,7 +5,7 @@ work in this repository without re-deriving it from scratch every time.
 
 ## What this is
 
-A gym/workout tracking app ("Gorilla"): log workouts, sets (reps/weight),
+A gym/workout tracking app ("Gorilla Labs"): log workouts, sets (reps/weight),
 manage a personal + global exercise library, and build reusable training
 plans that pre-fill a workout when started. FastAPI + PostgreSQL backend,
 React + Vite frontend.
