@@ -35,7 +35,7 @@
 
 - [ ] **Step 1: Create the root `.gitignore`**
 
-Create `/Users/karol/Desktop/gym-app/.gitignore`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/.gitignore`:
 
 ```gitignore
 # Python
@@ -82,7 +82,7 @@ Expected: no output at all (the `.gitignore` now hides them entirely, rather tha
 
 - [ ] **Step 4: Add `.env.example` files**
 
-Create `/Users/karol/Desktop/gym-app/Backend/app/.env.example`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/Backend/app/.env.example`:
 
 ```
 DATABASE_URL=postgresql://gym_user:your_password@localhost:5432/gym_tracker
@@ -91,7 +91,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES=10080
 ALGORITHM=HS256
 ```
 
-Create `/Users/karol/Desktop/gym-app/Frontend_new/.env.example`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/Frontend_new/.env.example`:
 
 ```
 VITE_API_BASE_URL=http://localhost:8000
@@ -100,7 +100,7 @@ VITE_API_BASE_URL=http://localhost:8000
 - [ ] **Step 5: Rotate `SECRET_KEY` without ever printing it**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/Backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/Backend/app
 python3 -c "import secrets; print(secrets.token_hex(32))" > /tmp/new_secret.txt
 sed -i '' "s/^SECRET_KEY=.*/SECRET_KEY=$(cat /tmp/new_secret.txt)/" .env
 rm /tmp/new_secret.txt
@@ -112,7 +112,7 @@ Expected final output: `1` (confirms the line still exists and was rewritten —
 - [ ] **Step 6: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add .gitignore Backend/app/.env.example Frontend_new/.env.example
 git commit -m "chore: add .gitignore, untrack secrets/venv/node_modules, rotate SECRET_KEY"
 ```
@@ -145,7 +145,7 @@ This is a mechanical restructure with no behavior change. Correctness is verifie
 - [ ] **Step 1: Rename the folder (two-step, for case-insensitive filesystems)**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git mv Backend Backend_tmp
 git mv Backend_tmp backend
 ```
@@ -154,9 +154,9 @@ git mv Backend_tmp backend
 
 - [ ] **Step 2: Create `core/config.py`**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/core/__init__.py` (empty file).
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/core/__init__.py` (empty file).
 
-Create `/Users/karol/Desktop/gym-app/backend/app/core/config.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/core/config.py`:
 
 ```python
 from pydantic_settings import BaseSettings
@@ -177,7 +177,7 @@ settings = Settings()
 
 - [ ] **Step 3: Create `core/database.py`**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/core/database.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/core/database.py`:
 
 ```python
 from sqlalchemy import create_engine
@@ -202,7 +202,7 @@ def get_db():
 
 - [ ] **Step 4: Create `core/security.py`**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/core/security.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/core/security.py`:
 
 ```python
 from datetime import datetime, timedelta
@@ -232,9 +232,9 @@ def create_access_token(data: dict) -> str:    #utworzenie tokena dostępowego
 
 - [ ] **Step 5: Create `api/deps.py`**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/api/__init__.py` (empty file).
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/api/__init__.py` (empty file).
 
-Create `/Users/karol/Desktop/gym-app/backend/app/api/deps.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/api/deps.py`:
 
 ```python
 from fastapi import Depends, HTTPException, status
@@ -274,9 +274,9 @@ def get_current_user(
 
 - [ ] **Step 6: Create `api/routers/auth.py`**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/api/routers/__init__.py` (empty file).
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/api/routers/__init__.py` (empty file).
 
-Create `/Users/karol/Desktop/gym-app/backend/app/api/routers/auth.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/api/routers/auth.py`:
 
 ```python
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -330,7 +330,7 @@ def get_me(current_user: models.User = Depends(get_current_user)):
 
 - [ ] **Step 7: Create `api/routers/exercises.py`**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/api/routers/exercises.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/api/routers/exercises.py`:
 
 ```python
 from fastapi import APIRouter, Depends, HTTPException
@@ -395,7 +395,7 @@ def delete_exercise(
 
 - [ ] **Step 8: Create `api/routers/workouts.py`**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/api/routers/workouts.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/api/routers/workouts.py`:
 
 ```python
 from datetime import date
@@ -534,14 +534,14 @@ def delete_set(
 - [ ] **Step 9: Delete the old flat files and the old `routers/` package**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app
 rm database.py auth.py
 rm -rf routers
 ```
 
 - [ ] **Step 10: Update `main.py`**
 
-Replace the contents of `/Users/karol/Desktop/gym-app/backend/app/main.py`:
+Replace the contents of `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/main.py`:
 
 ```python
 from fastapi import FastAPI
@@ -578,7 +578,7 @@ def health_check():
 
 - [ ] **Step 11: Update `models.py`'s import**
 
-In `/Users/karol/Desktop/gym-app/backend/app/models.py`, change:
+In `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/models.py`, change:
 
 ```python
 from database import Base
@@ -592,7 +592,7 @@ from core.database import Base
 
 - [ ] **Step 12: Update `seed_exercises.py`'s import**
 
-In `/Users/karol/Desktop/gym-app/backend/app/seed_exercises.py`, change:
+In `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/seed_exercises.py`, change:
 
 ```python
 from database import SessionLocal
@@ -608,7 +608,7 @@ from core.database import SessionLocal
 
 - [ ] **Step 13: Update `test_auth.py`'s imports**
 
-Replace the contents of `/Users/karol/Desktop/gym-app/backend/app/test_auth.py`:
+Replace the contents of `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/test_auth.py`:
 
 ```python
 import time
@@ -651,7 +651,7 @@ def test_create_access_token_expiry_is_in_the_future():
 
 - [ ] **Step 14: Fix the CI workflow's hardcoded path**
 
-In `/Users/karol/Desktop/gym-app/.github/workflows/CI.yaml`, change:
+In `/Users/bartlomiejmika/Desktop/Work/app/gym-app/.github/workflows/CI.yaml`, change:
 
 ```yaml
     defaults:
@@ -670,7 +670,7 @@ to:
 - [ ] **Step 15: Verify — run the full test suite**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app
 venv/bin/python3 -m pytest -v
 ```
 
@@ -679,7 +679,7 @@ Expected: `13 passed` (5 in `test_auth.py`, 6 in `test_schemas.py`, 2 in `test_s
 - [ ] **Step 16: Verify — boot the server and hit `/health`**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app
 venv/bin/python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 &
 UVICORN_PID=$!
 sleep 2
@@ -693,7 +693,7 @@ Expected: `{"status":"ok"}`
 - [ ] **Step 17: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add -A -- backend .github/workflows/CI.yaml
 git status --short -- backend | grep -v '/venv/' | head -50
 git commit -m "refactor(backend): rename Backend to backend, split into core/+api/ packages"
@@ -718,7 +718,7 @@ git commit -m "refactor(backend): rename Backend to backend, split into core/+ap
 
 - [ ] **Step 1: Create `pytest.ini` so tests can import top-level modules regardless of pytest's rootdir**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/pytest.ini`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/pytest.ini`:
 
 ```ini
 [pytest]
@@ -727,9 +727,9 @@ pythonpath = .
 
 - [ ] **Step 2: Move and fix the seed script**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/scripts/__init__.py` (empty file).
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/scripts/__init__.py` (empty file).
 
-Create `/Users/karol/Desktop/gym-app/backend/app/scripts/seed_exercises.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/scripts/seed_exercises.py`:
 
 ```python
 """
@@ -782,16 +782,16 @@ if __name__ == "__main__":
 ```
 
 ```bash
-rm /Users/karol/Desktop/gym-app/backend/app/seed_exercises.py
+rm /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/seed_exercises.py
 ```
 
 - [ ] **Step 3: Move the test files, fixing the seed-script import**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/tests/__init__.py` (empty file).
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/tests/__init__.py` (empty file).
 
-Create `/Users/karol/Desktop/gym-app/backend/app/tests/test_auth.py` with the exact content already written in Task 2 Step 13 (the version importing `from core import security` / `from core.config import settings`).
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/tests/test_auth.py` with the exact content already written in Task 2 Step 13 (the version importing `from core import security` / `from core.config import settings`).
 
-Create `/Users/karol/Desktop/gym-app/backend/app/tests/test_schemas.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/tests/test_schemas.py`:
 
 ```python
 import pytest
@@ -833,7 +833,7 @@ def test_workout_create_allows_all_fields_to_be_omitted():
     assert w.notes is None
 ```
 
-Create `/Users/karol/Desktop/gym-app/backend/app/tests/test_seed_exercises.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/tests/test_seed_exercises.py`:
 
 ```python
 from scripts.seed_exercises import DEFAULT_EXERCISES
@@ -852,15 +852,15 @@ def test_default_exercises_have_no_duplicate_names():
 ```
 
 ```bash
-rm /Users/karol/Desktop/gym-app/backend/app/test_auth.py
-rm /Users/karol/Desktop/gym-app/backend/app/test_schemas.py
-rm /Users/karol/Desktop/gym-app/backend/app/test_seed_excercises.py
+rm /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/test_auth.py
+rm /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/test_schemas.py
+rm /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/test_seed_excercises.py
 ```
 
 - [ ] **Step 4: Verify — run the full test suite from the new layout**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app
 venv/bin/python3 -m pytest -v
 ```
 
@@ -869,7 +869,7 @@ Expected: `13 passed`, same count as before — confirms `pytest.ini`'s `pythonp
 - [ ] **Step 5: Verify — the seed script still runs standalone**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app
 venv/bin/python3 -m scripts.seed_exercises
 ```
 
@@ -878,7 +878,7 @@ Expected: `Dodano 0 nowych globalnych ćwiczeń.` (the 18 exercises are already 
 - [ ] **Step 6: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add backend/app/scripts backend/app/tests backend/app/pytest.ini
 git rm backend/app/seed_exercises.py backend/app/test_auth.py backend/app/test_schemas.py backend/app/test_seed_excercises.py
 git commit -m "refactor(backend): move seed script and tests into scripts/ and tests/ packages"
@@ -897,7 +897,7 @@ git commit -m "refactor(backend): move seed script and tests into scripts/ and t
 
 - [ ] **Step 1: Update the import**
 
-In `/Users/karol/Desktop/gym-app/backend/app/alembic/env.py`, change:
+In `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/alembic/env.py`, change:
 
 ```python
 from database import Base, settings
@@ -913,7 +913,7 @@ from core.config import settings
 - [ ] **Step 2: Verify — alembic can read the config and connect**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app
 venv/bin/python3 -m alembic current
 ```
 
@@ -930,7 +930,7 @@ Expected: only `INFO` log lines (e.g. `Context impl PostgresqlImpl`, `Will assum
 - [ ] **Step 4: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add backend/app/alembic/env.py
 git commit -m "refactor(backend): fix alembic env.py imports after core/ restructure"
 ```
@@ -953,7 +953,7 @@ git commit -m "refactor(backend): fix alembic env.py imports after core/ restruc
 
 - [ ] **Step 1: Add the `workout_plans` relationship to `User`**
 
-In `/Users/karol/Desktop/gym-app/backend/app/models.py`, change:
+In `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/models.py`, change:
 
 ```python
     workouts = relationship("Workout", back_populates="owner", cascade="all, delete-orphan")
@@ -970,7 +970,7 @@ to:
 
 - [ ] **Step 2: Add `plan_id` to `Workout`**
 
-In `/Users/karol/Desktop/gym-app/backend/app/models.py`, change:
+In `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/models.py`, change:
 
 ```python
     id = Column(Integer, primary_key=True, index=True)
@@ -997,7 +997,7 @@ to:
 
 - [ ] **Step 3: Append the two new model classes**
 
-At the end of `/Users/karol/Desktop/gym-app/backend/app/models.py`, after the `SetEntry` class, add:
+At the end of `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/models.py`, after the `SetEntry` class, add:
 
 ```python
 
@@ -1040,7 +1040,7 @@ class PlanExercise(Base):
 - [ ] **Step 4: Generate the migration**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app
 venv/bin/python3 -m alembic revision --autogenerate -m "add workout plans"
 ```
 
@@ -1110,7 +1110,7 @@ Expected: `13 passed`.
 - [ ] **Step 9: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add backend/app/models.py backend/app/alembic/versions/
 git commit -m "feat(backend): add WorkoutPlan and PlanExercise models + migration"
 ```
@@ -1134,7 +1134,7 @@ git commit -m "feat(backend): add WorkoutPlan and PlanExercise models + migratio
 
 - [ ] **Step 1: Write the failing tests**
 
-Append to `/Users/karol/Desktop/gym-app/backend/app/tests/test_schemas.py`:
+Append to `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/tests/test_schemas.py`:
 
 ```python
 
@@ -1164,7 +1164,7 @@ def test_workout_plan_create_requires_name():
 - [ ] **Step 2: Run tests to verify they fail**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app
 venv/bin/python3 -m pytest tests/test_schemas.py -v
 ```
 
@@ -1172,7 +1172,7 @@ Expected: the 4 new tests `FAIL` with `AttributeError: module 'schemas' has no a
 
 - [ ] **Step 3: Implement the schemas**
 
-Append to `/Users/karol/Desktop/gym-app/backend/app/schemas.py`:
+Append to `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/schemas.py`:
 
 ```python
 
@@ -1259,7 +1259,7 @@ Expected: `13 passed` (the schema file total went from 6→10, but this counts d
 - [ ] **Step 6: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add backend/app/schemas.py backend/app/tests/test_schemas.py
 git commit -m "feat(backend): add Plan schemas with validation tests"
 ```
@@ -1283,7 +1283,7 @@ git commit -m "feat(backend): add Plan schemas with validation tests"
 
 - [ ] **Step 1: Create the router**
 
-Create `/Users/karol/Desktop/gym-app/backend/app/api/routers/plans.py`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/api/routers/plans.py`:
 
 ```python
 from datetime import date
@@ -1403,7 +1403,7 @@ def start_workout_from_plan(
 
 - [ ] **Step 2: Register the router**
 
-In `/Users/karol/Desktop/gym-app/backend/app/main.py`, change:
+In `/Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app/main.py`, change:
 
 ```python
 from api.routers import auth, exercises, workouts
@@ -1435,7 +1435,7 @@ app.include_router(plans.router)
 - [ ] **Step 3: Run the full test suite (no test changes expected, this is a sanity check)**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app
 venv/bin/python3 -m pytest -v
 ```
 
@@ -1444,7 +1444,7 @@ Expected: same pass count as the end of Task 6, no failures.
 - [ ] **Step 4: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add backend/app/api/routers/plans.py backend/app/main.py
 git commit -m "feat(backend): implement /plans router and register it"
 ```
@@ -1464,7 +1464,7 @@ This is the task that proves the Plans feature actually works against a running 
 - [ ] **Step 1: Run the full test suite one last time**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/backend/app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/backend/app
 venv/bin/python3 -m pytest -v
 ```
 

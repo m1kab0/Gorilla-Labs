@@ -37,7 +37,7 @@
 - [ ] **Step 1: Rename the folder, delete the legacy frontend**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git mv Frontend_new frontend
 git rm -r Frontend
 ```
@@ -45,7 +45,7 @@ git rm -r Frontend
 - [ ] **Step 2: Install Tailwind CSS v4 and TanStack Query**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend
 npm install @tanstack/react-query
 npm install -D tailwindcss @tailwindcss/vite
 ```
@@ -54,7 +54,7 @@ Expected: both commands exit 0, `package.json` now lists `@tanstack/react-query`
 
 - [ ] **Step 3: Add the Tailwind Vite plugin**
 
-In `/Users/karol/Desktop/gym-app/frontend/vite.config.js`, change:
+In `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/vite.config.js`, change:
 
 ```javascript
 import { defineConfig } from 'vite'
@@ -87,7 +87,7 @@ export default defineConfig({
 - [ ] **Step 4: Create the folder skeleton**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend/src
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src
 mkdir -p app/routes components/ui components/layout \
   features/auth/components features/auth/api \
   features/workouts/api features/workouts/components \
@@ -99,7 +99,7 @@ mkdir -p app/routes components/ui components/layout \
 - [ ] **Step 5: Verify — the app still boots (old `src/pages` etc. are untouched, new empty dirs don't break anything)**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend
 npm run dev &
 DEV_PID=$!
 sleep 3
@@ -112,7 +112,7 @@ Expected: `200`
 - [ ] **Step 6: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/gym-app
 git add -A -- frontend
 git commit -m "chore(frontend): rename to frontend/, delete legacy vanilla-JS app, add Tailwind+TanStack Query"
 ```
@@ -139,7 +139,7 @@ git commit -m "chore(frontend): rename to frontend/, delete legacy vanilla-JS ap
 
 - [ ] **Step 1: Create `config/env.js`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/config/env.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-appfrontend/src/config/env.js`:
 
 ```javascript
 export const env = {
@@ -149,7 +149,7 @@ export const env = {
 
 - [ ] **Step 2: Create `lib/api-client.js`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/lib/api-client.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/lib/api-client.js`:
 
 ```javascript
 import { env } from '../config/env';
@@ -201,7 +201,7 @@ export async function api(path, { method = 'GET', body, form } = {}) {
 
 - [ ] **Step 3: Create `lib/react-query.js`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/lib/react-query.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/lib/react-query.js`:
 
 ```javascript
 import { QueryClient } from '@tanstack/react-query';
@@ -218,7 +218,7 @@ export const queryClient = new QueryClient({
 
 - [ ] **Step 4: Create `styles/globals.css`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/styles/globals.css`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/styles/globals.css`:
 
 ```css
 @import "tailwindcss";
@@ -288,7 +288,7 @@ body {
 
 - [ ] **Step 5: Point `main.jsx` at the new stylesheet, delete the old one**
 
-In `/Users/karol/Desktop/gym-app/frontend/src/main.jsx`, change:
+In `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/main.jsx`, change:
 
 ```javascript
 import './styles.css'
@@ -301,13 +301,13 @@ import './styles/globals.css'
 ```
 
 ```bash
-rm /Users/karol/Desktop/gym-app/frontend/src/styles.css
+rm /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/styles.css
 ```
 
 - [ ] **Step 6: Verify — dev server boots, Tailwind compiles, no CSS errors**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend
 npm run dev &
 DEV_PID=$!
 sleep 3
@@ -321,7 +321,7 @@ Expected: `main.jsx` transpiles (some JS output printed, no error page), and the
 - [ ] **Step 7: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add frontend/src/config frontend/src/lib/api-client.js frontend/src/lib/react-query.js frontend/src/styles/globals.css frontend/src/main.jsx
 git rm frontend/src/styles.css
 git commit -m "feat(frontend): add env config, api client, react-query client, Tailwind theme"
@@ -355,7 +355,7 @@ git commit -m "feat(frontend): add env config, api client, react-query client, T
 
 - [ ] **Step 1: Create `lib/auth.jsx`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/lib/auth.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/lib/auth.jsx`:
 
 ```jsx
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -416,7 +416,7 @@ Note on `useLogout`: it clears the *entire* query cache, not just the user entry
 
 - [ ] **Step 2: Create `components/ui/Button.jsx`** (implements animation #1, the set-logged confirmation pulse)
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/components/ui/Button.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/components/ui/Button.jsx`:
 
 ```jsx
 import { useState } from 'react';
@@ -470,7 +470,7 @@ export default function Button({
 
 - [ ] **Step 3: Create `components/ui/TextField.jsx`** (implements animation #4, shake-on-invalid)
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/components/ui/TextField.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/components/ui/TextField.jsx`:
 
 ```jsx
 import { useEffect, useState } from 'react';
@@ -506,7 +506,7 @@ export default function TextField({ label, id, invalid = false, className = '', 
 
 - [ ] **Step 4: Create `components/ui/Select.jsx`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/components/ui/Select.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/components/ui/Select.jsx`:
 
 ```jsx
 export default function Select({ label, id, className = '', children, ...props }) {
@@ -531,7 +531,7 @@ export default function Select({ label, id, className = '', children, ...props }
 
 - [ ] **Step 5: Create `components/ui/ErrorBanner.jsx`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/components/ui/ErrorBanner.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/components/ui/ErrorBanner.jsx`:
 
 ```jsx
 export default function ErrorBanner({ children }) {
@@ -546,7 +546,7 @@ export default function ErrorBanner({ children }) {
 
 - [ ] **Step 6: Create `components/ui/EmptyState.jsx`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/components/ui/EmptyState.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/components/ui/EmptyState.jsx`:
 
 ```jsx
 export default function EmptyState({ children }) {
@@ -560,7 +560,7 @@ export default function EmptyState({ children }) {
 
 - [ ] **Step 7: Create `components/ui/Skeleton.jsx`** (implements animation #3, skeleton loading)
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/components/ui/Skeleton.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/components/ui/Skeleton.jsx`:
 
 ```jsx
 export default function Skeleton({ className = '' }) {
@@ -575,10 +575,10 @@ export default function Skeleton({ className = '' }) {
 - [ ] **Step 8: Create `hooks/useExitTransition.js`** (implements animation #2, collapse-on-delete)
 
 ```bash
-mkdir -p /Users/karol/Desktop/gym-app/frontend/src/hooks
+mkdir -p /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/hooks
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/hooks/useExitTransition.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/hooks/useExitTransition.js`:
 
 ```javascript
 import { useCallback, useState } from 'react';
@@ -606,7 +606,7 @@ export function useExitTransition() {
 - [ ] **Step 9: Verify — dev server still boots (nothing imports these new files yet, this is a compile-error check only)**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend
 npm run dev &
 DEV_PID=$!
 sleep 3
@@ -619,7 +619,7 @@ Expected: `200`
 - [ ] **Step 10: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add frontend/src/lib/auth.jsx frontend/src/components/ui frontend/src/hooks
 git commit -m "feat(frontend): add auth hooks, shared UI primitives, exit-transition hook"
 ```
@@ -642,10 +642,10 @@ New files are created alongside the still-untouched old `src/App.jsx`/`src/pages
 - [ ] **Step 1: Create the layouts**
 
 ```bash
-mkdir -p /Users/karol/Desktop/gym-app/frontend/src/components/layout
+mkdir -p /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/components/layout
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/components/layout/ProtectedLayout.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/components/layout/ProtectedLayout.jsx`:
 
 ```jsx
 import { Navigate, Outlet, Link, useNavigate } from 'react-router-dom';
@@ -701,7 +701,7 @@ export default function ProtectedLayout() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/components/layout/PublicLayout.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/components/layout/PublicLayout.jsx`:
 
 ```jsx
 import { Outlet, Navigate, Link } from 'react-router-dom';
@@ -733,10 +733,10 @@ export default function PublicLayout() {
 - [ ] **Step 2: Create the auth feature's form components**
 
 ```bash
-mkdir -p /Users/karol/Desktop/gym-app/frontend/src/features/auth/components
+mkdir -p /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/auth/components
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/auth/components/LoginForm.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/auth/components/LoginForm.jsx`:
 
 ```jsx
 import { useState } from 'react';
@@ -800,7 +800,7 @@ export default function LoginForm() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/auth/components/RegisterForm.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/auth/components/RegisterForm.jsx`:
 
 ```jsx
 import { useState } from 'react';
@@ -874,7 +874,7 @@ export default function RegisterForm() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/auth/index.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/auth/index.js`:
 
 ```javascript
 export { default as LoginForm } from './components/LoginForm';
@@ -883,7 +883,7 @@ export { default as RegisterForm } from './components/RegisterForm';
 
 - [ ] **Step 3: Create the route pages**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/app/routes/login.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/app/routes/login.jsx`:
 
 ```jsx
 import { LoginForm } from '../../features/auth';
@@ -893,7 +893,7 @@ export default function LoginRoute() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/app/routes/register.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/app/routes/register.jsx`:
 
 ```jsx
 import { RegisterForm } from '../../features/auth';
@@ -906,7 +906,7 @@ export default function RegisterRoute() {
 - [ ] **Step 4: Verify — each new file transpiles cleanly via Vite's on-demand dev server**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend
 npm run dev &
 DEV_PID=$!
 sleep 3
@@ -924,7 +924,7 @@ Expected: every line ends in `-> 200`. A `500` means a syntax error or unresolve
 - [ ] **Step 5: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add frontend/src/components/layout frontend/src/features/auth frontend/src/app/routes/login.jsx frontend/src/app/routes/register.jsx
 git commit -m "feat(frontend): add layouts and auth feature (login/register)"
 ```
@@ -948,11 +948,11 @@ git commit -m "feat(frontend): add layouts and auth feature (login/register)"
 - [ ] **Step 1: Create the API hooks**
 
 ```bash
-mkdir -p /Users/karol/Desktop/gym-app/frontend/src/features/exercises/api
-mkdir -p /Users/karol/Desktop/gym-app/frontend/src/features/exercises/components
+mkdir -p /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/exercises/api
+mkdir -p /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/exercises/components
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/exercises/api/get-exercises.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/exercises/api/get-exercises.js`:
 
 ```javascript
 import { useQuery } from '@tanstack/react-query';
@@ -967,7 +967,7 @@ export function useExercises() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/exercises/api/create-exercise.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/exercises/api/create-exercise.js`:
 
 ```javascript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -988,7 +988,7 @@ export function useCreateExercise() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/exercises/api/delete-exercise.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/exercises/api/delete-exercise.js`:
 
 ```javascript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -1011,7 +1011,7 @@ export function useDeleteExercise() {
 
 - [ ] **Step 2: Create the components** (list rendering implements animation #2, collapse-on-delete)
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/exercises/components/ExerciseListItem.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/exercises/components/ExerciseListItem.jsx`:
 
 ```jsx
 export default function ExerciseListItem({ exercise, onDelete }) {
@@ -1039,7 +1039,7 @@ export default function ExerciseListItem({ exercise, onDelete }) {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/exercises/components/ExerciseList.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/exercises/components/ExerciseList.jsx`:
 
 ```jsx
 import EmptyState from '../../../components/ui/EmptyState';
@@ -1075,7 +1075,7 @@ export default function ExerciseList({ exercises, emptyMessage, onDelete }) {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/exercises/components/ExerciseForm.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/exercises/components/ExerciseForm.jsx`:
 
 ```jsx
 import { useState } from 'react';
@@ -1133,7 +1133,7 @@ export default function ExerciseForm({ onCreated }) {
 
 - [ ] **Step 3: Create the barrel**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/exercises/index.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/exercises/index.js`:
 
 ```javascript
 export { useExercises } from './api/get-exercises';
@@ -1145,7 +1145,7 @@ export { default as ExerciseForm } from './components/ExerciseForm';
 
 - [ ] **Step 4: Create the route page**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/app/routes/exercises.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/app/routes/exercises.jsx`:
 
 ```jsx
 import { useMemo, useState } from 'react';
@@ -1232,7 +1232,7 @@ export default function ExercisesRoute() {
 - [ ] **Step 5: Verify — each new file transpiles cleanly**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend
 npm run dev &
 DEV_PID=$!
 sleep 3
@@ -1251,7 +1251,7 @@ Expected: every line ends in `-> 200`.
 - [ ] **Step 6: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add frontend/src/features/exercises frontend/src/app/routes/exercises.jsx
 git commit -m "feat(frontend): add exercises feature"
 ```
@@ -1277,11 +1277,11 @@ Plans is built before Workouts because `WorkoutDetail` (Task 7) needs `usePlan()
 - [ ] **Step 1: Create the API hooks**
 
 ```bash
-mkdir -p /Users/karol/Desktop/gym-app/frontend/src/features/plans/api
-mkdir -p /Users/karol/Desktop/gym-app/frontend/src/features/plans/components
+mkdir -p /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/api
+mkdir -p /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/components
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/plans/api/get-plans.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/api/get-plans.js`:
 
 ```javascript
 import { useQuery } from '@tanstack/react-query';
@@ -1296,7 +1296,7 @@ export function usePlans() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/plans/api/get-plan.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/api/get-plan.js`:
 
 ```javascript
 import { useQuery } from '@tanstack/react-query';
@@ -1315,7 +1315,7 @@ export function usePlan(planId) {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/plans/api/create-plan.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/api/create-plan.js`:
 
 ```javascript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -1336,7 +1336,7 @@ export function useCreatePlan() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/plans/api/delete-plan.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/api/delete-plan.js`:
 
 ```javascript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -1357,7 +1357,7 @@ export function useDeletePlan() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/plans/api/start-plan.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/api/start-plan.js`:
 
 ```javascript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -1380,7 +1380,7 @@ export function useStartPlan() {
 
 - [ ] **Step 2: Create the components**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/plans/components/PlanCard.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/components/PlanCard.jsx`:
 
 ```jsx
 import Button from '../../../components/ui/Button';
@@ -1413,7 +1413,7 @@ export default function PlanCard({ plan, onStart, onDelete, starting }) {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/plans/components/PlanList.jsx` (implements animation #2, collapse-on-delete):
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/components/PlanList.jsx` (implements animation #2, collapse-on-delete):
 
 ```jsx
 import EmptyState from '../../../components/ui/EmptyState';
@@ -1449,7 +1449,7 @@ export default function PlanList({ plans, startingId, onStart, onDelete }) {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/plans/components/PlanForm.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/components/PlanForm.jsx`:
 
 ```jsx
 import { useState } from 'react';
@@ -1583,7 +1583,7 @@ export default function PlanForm() {
 
 - [ ] **Step 3: Create the barrel**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/plans/index.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/plans/index.js`:
 
 ```javascript
 export { usePlans } from './api/get-plans';
@@ -1597,7 +1597,7 @@ export { default as PlanForm } from './components/PlanForm';
 
 - [ ] **Step 4: Create the route page**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/app/routes/plans.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/app/routes/plans.jsx`:
 
 ```jsx
 import { useState } from 'react';
@@ -1654,7 +1654,7 @@ export default function PlansRoute() {
 - [ ] **Step 5: Verify — each new file transpiles cleanly**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend
 npm run dev &
 DEV_PID=$!
 sleep 3
@@ -1673,7 +1673,7 @@ Expected: every line ends in `-> 200`.
 - [ ] **Step 6: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add frontend/src/features/plans frontend/src/app/routes/plans.jsx
 git commit -m "feat(frontend): add plans feature"
 ```
@@ -1696,12 +1696,12 @@ git commit -m "feat(frontend): add plans feature"
 - [ ] **Step 1: Create the API hooks**
 
 ```bash
-mkdir -p /Users/karol/Desktop/gym-app/frontend/src/features/workouts/api
-mkdir -p /Users/karol/Desktop/gym-app/frontend/src/features/workouts/utils
-mkdir -p /Users/karol/Desktop/gym-app/frontend/src/features/workouts/components
+mkdir -p /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/api
+mkdir -p /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/utils
+mkdir -p /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/components
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/api/get-workouts.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/api/get-workouts.js`:
 
 ```javascript
 import { useQuery } from '@tanstack/react-query';
@@ -1716,7 +1716,7 @@ export function useWorkouts() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/api/get-workout.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/api/get-workout.js`:
 
 ```javascript
 import { useQuery } from '@tanstack/react-query';
@@ -1735,7 +1735,7 @@ export function useWorkout(workoutId) {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/api/create-workout.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/api/create-workout.js`:
 
 ```javascript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -1756,7 +1756,7 @@ export function useCreateWorkout() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/api/delete-workout.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/api/delete-workout.js`:
 
 ```javascript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -1778,7 +1778,7 @@ export function useDeleteWorkout() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/api/add-set.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/api/add-set.js`:
 
 ```javascript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -1802,7 +1802,7 @@ export function useAddSet(workoutId) {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/api/delete-set.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/api/delete-set.js`:
 
 ```javascript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -1825,7 +1825,7 @@ export function useDeleteSet(workoutId) {
 
 - [ ] **Step 2: Create the shared date formatter**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/utils/format-date.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/utils/format-date.js`:
 
 ```javascript
 export function formatWorkoutDate(dateStr) {
@@ -1836,7 +1836,7 @@ export function formatWorkoutDate(dateStr) {
 
 - [ ] **Step 3: Create the list-view components** (`WorkoutList` implements animations #2 collapse-on-delete and #5 entrance stagger + hover-lift)
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/components/WorkoutCard.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/components/WorkoutCard.jsx`:
 
 ```jsx
 import { formatWorkoutDate } from '../utils/format-date';
@@ -1872,7 +1872,7 @@ export default function WorkoutCard({ workout, onOpen, onDelete }) {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/components/WorkoutList.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/components/WorkoutList.jsx`:
 
 ```jsx
 import EmptyState from '../../../components/ui/EmptyState';
@@ -1911,7 +1911,7 @@ export default function WorkoutList({ workouts, onOpen, onDelete }) {
 
 - [ ] **Step 4: Create the detail-view components**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/components/SetRow.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/components/SetRow.jsx`:
 
 ```jsx
 export default function SetRow({ set, index, maxWeight, onDelete }) {
@@ -1947,7 +1947,7 @@ export default function SetRow({ set, index, maxWeight, onDelete }) {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/components/ExerciseGroup.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/components/ExerciseGroup.jsx`:
 
 ```jsx
 import SetRow from './SetRow';
@@ -1966,7 +1966,7 @@ export default function ExerciseGroup({ group, maxWeight, onDeleteSet }) {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/components/PlanExerciseEntry.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/components/PlanExerciseEntry.jsx`:
 
 ```jsx
 import TextField from '../../../components/ui/TextField';
@@ -2011,7 +2011,7 @@ export default function PlanExerciseEntry({ planExercise, loggedCount, entry, on
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/components/AddSetForm.jsx` (implements animation #4, shake-on-invalid, for the reps field):
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/components/AddSetForm.jsx` (implements animation #4, shake-on-invalid, for the reps field):
 
 ```jsx
 import { useMemo, useState } from 'react';
@@ -2127,7 +2127,7 @@ export default function AddSetForm({ exercises, hasPlan, onSubmit }) {
 
 - [ ] **Step 5: Create the barrel**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/features/workouts/index.js`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/features/workouts/index.js`:
 
 ```javascript
 export { useWorkouts } from './api/get-workouts';
@@ -2145,7 +2145,7 @@ export { default as PlanExerciseEntry } from './components/PlanExerciseEntry';
 
 - [ ] **Step 6: Create the route pages**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/app/routes/workouts.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/app/routes/workouts.jsx`:
 
 ```jsx
 import { useNavigate } from 'react-router-dom';
@@ -2206,7 +2206,7 @@ export default function WorkoutsRoute() {
 }
 ```
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/app/routes/workout-detail.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/app/routes/workout-detail.jsx`:
 
 ```jsx
 import { useMemo, useState } from 'react';
@@ -2354,7 +2354,7 @@ export default function WorkoutDetailRoute() {
 - [ ] **Step 7: Verify — each new file transpiles cleanly**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend
 npm run dev &
 DEV_PID=$!
 sleep 3
@@ -2377,7 +2377,7 @@ Expected: every line ends in `-> 200`.
 - [ ] **Step 8: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add frontend/src/features/workouts frontend/src/app/routes/workouts.jsx frontend/src/app/routes/workout-detail.jsx
 git commit -m "feat(frontend): add workouts feature (list + detail)"
 ```
@@ -2400,7 +2400,7 @@ This is the task where the app switches from the old `App.jsx`/`src/pages` to th
 
 - [ ] **Step 1: Create `app/provider.jsx`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/app/provider.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/app/provider.jsx`:
 
 ```jsx
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -2413,7 +2413,7 @@ export default function AppProvider({ children }) {
 
 - [ ] **Step 2: Create `app/router.jsx`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/app/router.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/app/router.jsx`:
 
 ```jsx
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
@@ -2452,7 +2452,7 @@ export default function AppRouter() {
 
 - [ ] **Step 3: Create `app/app.jsx`**
 
-Create `/Users/karol/Desktop/gym-app/frontend/src/app/app.jsx`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/app/app.jsx`:
 
 ```jsx
 import AppProvider from './provider';
@@ -2469,7 +2469,7 @@ export default function App() {
 
 - [ ] **Step 4: Point `main.jsx` at the new app shell**
 
-Replace the contents of `/Users/karol/Desktop/gym-app/frontend/src/main.jsx`:
+Replace the contents of `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/src/main.jsx`:
 
 ```jsx
 import { StrictMode } from 'react'
@@ -2487,7 +2487,7 @@ createRoot(document.getElementById('root')).render(
 - [ ] **Step 5: Delete the legacy files**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend
 rm src/App.jsx
 rm -rf src/pages
 rm src/components/ProtectedLayout.jsx src/components/PublicLayout.jsx
@@ -2497,7 +2497,7 @@ rm src/lib/api.js
 
 - [ ] **Step 6: Update `frontend/README.md`**
 
-In `/Users/karol/Desktop/gym-app/frontend/README.md`, remove the entire section from `**Wymaga rozszerzenia backendu**` through the end of `## Wymagane zmiany w backendzie` (the five numbered items) — the Plans backend now exists. Replace that whole block with:
+In `/Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend/README.md`, remove the entire section from `**Wymaga rozszerzenia backendu**` through the end of `## Wymagane zmiany w backendzie` (the five numbered items) — the Plans backend now exists. Replace that whole block with:
 
 ```markdown
 Plany treningowe są w pełni zaimplementowane, wraz z odpowiadającym im
@@ -2543,7 +2543,7 @@ src/
 - [ ] **Step 7: Automated smoke check — dev server boots and every route resolves**
 
 ```bash
-cd /Users/karol/Desktop/gym-app/frontend
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app/frontend
 npm run dev &
 DEV_PID=$!
 sleep 3
@@ -2579,7 +2579,7 @@ Anything that doesn't match — a blank screen, a console error, a route not ren
 - [ ] **Step 9: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add frontend/src/app/provider.jsx frontend/src/app/router.jsx frontend/src/app/app.jsx frontend/src/main.jsx frontend/README.md
 git rm -r frontend/src/App.jsx frontend/src/pages frontend/src/components/ProtectedLayout.jsx frontend/src/components/PublicLayout.jsx frontend/src/lib/AuthContext.jsx frontend/src/lib/api.js
 git commit -m "feat(frontend): wire up new app shell, delete legacy files, update README"
@@ -2592,7 +2592,7 @@ git commit -m "feat(frontend): wire up new app shell, delete legacy files, updat
 Written last, after both this plan and the backend plan are fully executed, so it reflects the true end state rather than the plan.
 
 **Files:**
-- Create: `/Users/karol/Desktop/gym-app/CLAUDE.md`
+- Create: `/Users/bartlomiejmika/Desktop/Work/app/gym-app/CLAUDE.md`
 
 **Interfaces:**
 - Consumes: the final state of both plans (backend restructure + Plans feature, frontend bulletproof-react rebuild).
@@ -2600,7 +2600,7 @@ Written last, after both this plan and the backend plan are fully executed, so i
 
 - [ ] **Step 1: Create `CLAUDE.md`**
 
-Create `/Users/karol/Desktop/gym-app/CLAUDE.md`:
+Create `/Users/bartlomiejmika/Desktop/Work/app/gym-app/CLAUDE.md`:
 
 ```markdown
 # CLAUDE.md
@@ -2711,7 +2711,7 @@ styles/globals.css               - Tailwind import + @theme design tokens + @key
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/karol/Desktop/gym-app
+cd /Users/bartlomiejmika/Desktop/Work/app/gym-app
 git add CLAUDE.md
 git commit -m "docs: add root CLAUDE.md with architecture, run instructions, and known gaps"
 ```
