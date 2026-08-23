@@ -25,7 +25,20 @@ RUN npm run build
 
 FROM nginx:1.27-alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Where the API lives, as seen from inside this container. Overridden under
+# Kubernetes, where the bare service name does not resolve for nginx.
+ENV API_UPSTREAM=http://api:8000
+
+# Goes into templates/, not conf.d/: the nginx image's entrypoint runs envsubst
+# over this and writes the result to /etc/nginx/conf.d/default.conf, which is
+# how ${API_UPSTREAM} gets filled in. nginx's own $variables are left alone,
+# because envsubst is given an explicit list of environment variables.
+COPY nginx.conf /etc/nginx/templates/default.conf.template
+# Scripts in this directory are run by the nginx image's entrypoint before
+# nginx starts — this one pins the DNS resolver to whatever the environment
+# actually uses, so the same image works under Compose and Kubernetes.
+COPY docker-entrypoint.d/10-resolver.sh /docker-entrypoint.d/10-resolver.sh
+RUN chmod +x /docker-entrypoint.d/10-resolver.sh
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80

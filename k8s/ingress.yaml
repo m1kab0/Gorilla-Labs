@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gorilla
+spec:
+  # Traefik jest wbudowany w k3s - nie trzeba nic doinstalowywać.
+  # Na innych klastrach podmień na "nginx" i zainstaluj ingress-nginx.
+  ingressClassName: traefik
+  rules:
+    - http:
+        paths:
+          # Tylko jedna reguła, bo /api/ obsługuje nginx wewnątrz poda web,
+          # kierując ruch na Service "api". Ingress nie musi o tym wiedzieć.
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 80

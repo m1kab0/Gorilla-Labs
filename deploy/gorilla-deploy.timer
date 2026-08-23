@@ -1,0 +1,11 @@
+[Unit]
+Description=Sprawdza co minutę, czy na origin/main pojawił się nowy commit
+
+[Timer]
+# Po restarcie maszyny odczekaj, aż docker.service się podniesie.
+OnBootSec=2min
+OnUnitActiveSec=1min
+Unit=gorilla-deploy.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Gorilla - wdrożenie najnowszego kodu z origin/main
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/gym-app
+ExecStart=/home/ubuntu/gym-app/deploy.sh
