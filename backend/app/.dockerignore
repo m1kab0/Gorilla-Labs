@@ -1,0 +1,16 @@
+# Never bake secrets into the image — DATABASE_URL/SECRET_KEY come from
+# the environment at run time.
+.env
+
+# The local virtualenv is Mac-specific and huge; the image builds its own.
+venv/
+.venv/
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+tests/
+
+.DS_Store
+Dockerfile
+.dockerignore

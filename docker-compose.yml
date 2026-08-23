@@ -1,0 +1,30 @@
+# Gorilla — production stack for a single VM (EC2 + RDS).
+#
+#   docker compose run --rm api alembic upgrade head   # once, and after each deploy
+#   docker compose up -d --build
+#
+# The database is external (RDS): DATABASE_URL and SECRET_KEY come from
+# backend/app/.env, which is never baked into the image.
+
+services:
+  api:
+    build: ./backend/app
+    env_file: ./backend/app/.env
+    restart: unless-stopped
+    # Deliberately not published to the host — the only way in is through the
+    # web container's /api/ proxy, so the security group needs port 80 alone.
+    expose:
+      - "8000"
+
+  web:
+    build:
+      context: ./frontend
+      args:
+        # Same-origin path, not a hostname: Vite bakes this into the bundle at
+        # build time, so anything else would pin the image to one IP/domain.
+        VITE_API_BASE_URL: /api
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    restart: unless-stopped
