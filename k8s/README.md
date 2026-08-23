@@ -65,6 +65,38 @@ docker tag gym-app-api:latest gorilla-api:latest && docker tag gym-app-web:lates
 docker save gorilla-api:latest gorilla-web:latest | sudo k3s ctr images import -
 ```
 
+### Gdy `docker save` się zawiesza
+
+Obrazy budowane przez buildx (czyli także przez `docker compose build`) powstają
+jako **manifest listy z atestacjami**. `docker save` potrafi się na czymś takim
+zawiesić na amen — proces stoi, nie zużywa procesora i nigdy nie kończy.
+Potwierdzone na tej maszynie 2026-08-23.
+
+Obejście: zbuduj obrazy jako zwykłe, jednoplatformowe, bez atestacji.
+
+```bash
+docker build --provenance=false -t gorilla-api:latest backend/app
+```
+
+```bash
+docker build --provenance=false --build-arg VITE_API_BASE_URL=/api -t gorilla-web:latest frontend
+```
+
+`--build-arg` jest tu obowiązkowy: budując przez `docker build` zamiast przez
+Compose, tracisz argument z `docker-compose.yml`, a domyślna wartość w Dockerfile
+to `http://localhost:8000`. Bez tego frontend odpytywałby localhost przeglądarki,
+co wygląda na awarię backendu, choć nią nie jest.
+
+Potem zapisz do pliku zamiast przez pipe — widać wtedy, który krok stoi:
+
+```bash
+docker save -o /tmp/gorilla-images.tar gorilla-api:latest gorilla-web:latest
+```
+
+```bash
+sudo k3s ctr images import /tmp/gorilla-images.tar
+```
+
 ## Sekrety
 
 Nie trzymamy ich w repo — tworzysz je z pliku `.env`, który już masz:
