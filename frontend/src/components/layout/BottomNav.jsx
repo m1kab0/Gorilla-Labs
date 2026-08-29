@@ -5,36 +5,44 @@ const ICON_PROPS = {
   height: 22,
   viewBox: '0 0 24 24',
   fill: 'none',
-  strokeWidth: 2,
+  strokeWidth: 2.2,
   strokeLinecap: 'round',
   strokeLinejoin: 'round',
   'aria-hidden': 'true',
 };
 
-/* Sztanga — treningi */
+/* Sztanga z talerzami — treningi */
 function BarbellIcon() {
   return (
     <svg {...ICON_PROPS}>
-      <path d="M3 8v8M6 8v8M18 8v8M21 8v8M6 12h12" />
+      <rect x="2.5" y="9" width="3" height="6" rx="1" />
+      <rect x="18.5" y="9" width="3" height="6" rx="1" />
+      <rect x="6.5" y="6.5" width="3.5" height="11" rx="1.2" />
+      <rect x="14" y="6.5" width="3.5" height="11" rx="1.2" />
+      <path d="M10 12h4" />
     </svg>
   );
 }
 
-/* Kartka z listą — plany */
+/* Kalendarz — plany */
 function PlanIcon() {
   return (
     <svg {...ICON_PROPS}>
-      <path d="M6 3h9l4 4v14H6z" />
-      <path d="M9 10h7M9 14h7M9 18h4" />
+      <rect x="3.5" y="4.5" width="17" height="16" rx="2.5" />
+      <path d="M8 2.5v4M16 2.5v4M3.5 9.5h17" />
+      <path d="M7.5 13.5h3M13.5 13.5h3M7.5 17h3" />
     </svg>
   );
 }
 
-/* Hantla — biblioteka ćwiczeń */
-function DumbbellIcon() {
+/* Siatka 2×2 — biblioteka ćwiczeń */
+function LibraryIcon() {
   return (
     <svg {...ICON_PROPS}>
-      <path d="M4 9v6M7 7v10M17 7v10M20 9v6M7 12h10" />
+      <rect x="3" y="3.5" width="7.5" height="7.5" rx="2" />
+      <rect x="13.5" y="3.5" width="7.5" height="7.5" rx="2" />
+      <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" />
+      <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" />
     </svg>
   );
 }
@@ -42,7 +50,7 @@ function DumbbellIcon() {
 const TABS = [
   { to: '/workouts', label: 'Treningi', Icon: BarbellIcon },
   { to: '/plans', label: 'Plany', Icon: PlanIcon },
-  { to: '/exercises', label: 'Ćwiczenia', Icon: DumbbellIcon },
+  { to: '/exercises', label: 'Ćwiczenia', Icon: LibraryIcon },
 ];
 
 export default function BottomNav() {

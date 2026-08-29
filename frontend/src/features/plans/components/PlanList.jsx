@@ -23,14 +23,14 @@ export default function PlanList({ plans, startingId, onStart, onDelete }) {
 
   return (
     <div className="flex flex-col gap-2.5">
-      {plans.map((plan) => (
+      {plans.map((plan, idx) => (
         <div
           key={plan.id}
           className={`transition-all duration-200 ${
             isExiting(plan.id) ? 'max-h-0 -translate-x-3 overflow-hidden opacity-0' : 'max-h-32 opacity-100'
           }`}
         >
-          <PlanCard plan={plan} starting={startingId === plan.id} onStart={onStart} onDelete={handleDelete} />
+          <PlanCard plan={plan} index={idx} starting={startingId === plan.id} onStart={onStart} onDelete={handleDelete} />
         </div>
       ))}
     </div>
