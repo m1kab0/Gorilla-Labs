@@ -1,5 +1,6 @@
 import { Navigate, Outlet, Link, useNavigate } from 'react-router-dom';
 import { useUser, useLogout } from '../../lib/auth';
+import BottomNav from './BottomNav';
 
 export default function ProtectedLayout() {
   const { data: user, isLoading } = useUser();
@@ -24,28 +25,15 @@ export default function ProtectedLayout() {
           <img src="/gorilla-logo.png" alt="" className="h-[150px] w-[150px] shrink-0" />
           Gorilla
         </Link>
-        <div className="flex items-center justify-center gap-4">
-          <button
-            className="p-1 font-body text-[13px] text-text-muted underline underline-offset-[3px] hover:text-text"
-            onClick={() => navigate('/plans')}
-          >
-            Plany
-          </button>
-          <button
-            className="p-1 font-body text-[13px] text-text-muted underline underline-offset-[3px] hover:text-text"
-            onClick={() => navigate('/exercises')}
-          >
-            Ćwiczenia
-          </button>
-          <button
-            className="p-1 font-body text-[13px] text-text-muted underline underline-offset-[3px] hover:text-text"
-            onClick={handleLogout}
-          >
-            Wyloguj
-          </button>
-        </div>
+        <button
+          className="p-1 font-body text-[13px] text-text-muted underline underline-offset-[3px] hover:text-text"
+          onClick={handleLogout}
+        >
+          Wyloguj
+        </button>
       </header>
       <Outlet />
+      <BottomNav />
     </div>
   );
 }

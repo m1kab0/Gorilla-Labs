@@ -11,6 +11,7 @@ import {
   ExerciseGroup,
   AddSetForm,
   PlanExerciseEntry,
+  QuickSetLogger,
 } from '../../features/workouts';
 import { useExercises } from '../../features/exercises';
 import { usePlan } from '../../features/plans';
@@ -145,6 +146,12 @@ export default function WorkoutDetailRoute() {
           ))
         )}
       </div>
+
+      <QuickSetLogger
+        exercises={exercises}
+        defaultExerciseId={workout.sets.at(-1)?.exercise_id ?? plan?.exercises[0]?.exercise_id}
+        onSubmit={handleAddSetFreeform}
+      />
 
       <AddSetForm exercises={exercises} hasPlan={!!plan} onSubmit={handleAddSetFreeform} />
     </div>
