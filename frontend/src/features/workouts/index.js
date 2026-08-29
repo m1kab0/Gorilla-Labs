@@ -9,3 +9,4 @@ export { default as WorkoutList } from './components/WorkoutList';
 export { default as ExerciseGroup } from './components/ExerciseGroup';
 export { default as AddSetForm } from './components/AddSetForm';
 export { default as PlanExerciseEntry } from './components/PlanExerciseEntry';
+export { default as QuickSetLogger } from './components/QuickSetLogger';
