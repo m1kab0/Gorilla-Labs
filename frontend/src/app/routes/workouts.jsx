@@ -22,14 +22,15 @@ export default function WorkoutsRoute() {
   startOfWeek.setDate(startOfWeek.getDate() - ((startOfWeek.getDay() + 6) % 7));
   startOfWeek.setHours(0, 0, 0, 0);
   const thisWeek = workouts.filter((w) => new Date(w.workout_date) >= startOfWeek).length;
+  const goal = JSON.parse(localStorage.getItem('gorilla:settings') || '{}').weeklyGoal ?? 5;
 
   return (
     <div className="flex flex-1 flex-col gap-5 px-5 pb-[100px] pt-6">
       <div className="flex items-center justify-between gap-4">
         <h1 className="m-0 font-display text-[28px] font-semibold tracking-wide">Twoje treningi</h1>
-        <GoalRing value={thisWeek} goal={5} />
+        <GoalRing value={thisWeek} goal={goal} />
       </div>
-      <p className="text-xs text-text-muted">Cel tygodnia · {thisWeek}/5 treningów</p>
+      <p className="text-xs text-text-muted">Cel tygodnia · {thisWeek}/{goal} treningów</p>
       {!isLoading && (
         <p className="-mt-3.5 mb-1 text-sm text-text-muted">
           {user?.display_name ? `${user.display_name} — ` : ''}

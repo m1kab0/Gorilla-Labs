@@ -3,26 +3,27 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../components/ui/Button';
 import Skeleton from '../../components/ui/Skeleton';
 import ErrorBanner from '../../components/ui/ErrorBanner';
-import { useExercises, useDeleteExercise, ExerciseList, ExerciseForm } from '../../features/exercises';
+import { useExercises, useDeleteExercise, ExerciseList, ExerciseForm, ExerciseSearch } from '../../features/exercises';
 
 export default function ExercisesRoute() {
   const navigate = useNavigate();
   const { data: exercises = [], isLoading } = useExercises();
   const deleteExercise = useDeleteExercise();
-  const [search, setSearch] = useState('');
+  const [query, setQuery] = useState('');
+  const [group, setGroup] = useState(null);
 
-  const matches = (ex, q) =>
-    !q || ex.name.toLowerCase().includes(q) || (ex.muscle_group || '').toLowerCase().includes(q);
+  const groups = useMemo(
+    () => [...new Set(exercises.map((e) => e.muscle_group).filter(Boolean))],
+    [exercises],
+  );
 
-  const own = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return exercises.filter((ex) => !ex.is_global && matches(ex, q));
-  }, [exercises, search]);
+  const matches = (ex) => {
+    const q = query.trim().toLowerCase();
+    return (!q || ex.name.toLowerCase().includes(q)) && (!group || ex.muscle_group === group);
+  };
 
-  const global = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return exercises.filter((ex) => ex.is_global && matches(ex, q));
-  }, [exercises, search]);
+  const own = useMemo(() => exercises.filter((ex) => !ex.is_global && matches(ex)), [exercises, query, group]);
+  const global = useMemo(() => exercises.filter((ex) => ex.is_global && matches(ex)), [exercises, query, group]);
 
   return (
     <div className="flex flex-1 flex-col gap-5 px-5 pb-[100px] pt-6">
@@ -34,13 +35,12 @@ export default function ExercisesRoute() {
         Dodawaj własne ćwiczenia — widzisz je tylko Ty, inni użytkownicy ich nie zobaczą.
       </p>
 
-      <input
-        type="text"
-        placeholder="🔍 Szukaj ćwiczenia..."
-        autoComplete="off"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="w-full rounded border border-line bg-surface px-3.5 py-3 font-body text-[15px] text-text focus:outline focus:outline-2 focus:outline-offset-1 focus:outline-accent"
+      <ExerciseSearch
+        query={query}
+        onQueryChange={setQuery}
+        groups={groups}
+        activeGroup={group}
+        onGroupChange={setGroup}
       />
 
       <ExerciseForm />
@@ -59,7 +59,7 @@ export default function ExercisesRoute() {
           <ExerciseList
             exercises={own}
             emptyMessage={
-              search
+              query || group
                 ? 'Brak własnych ćwiczeń pasujących do wyszukiwania.'
                 : 'Nie masz jeszcze własnych ćwiczeń. Dodaj pierwsze powyżej.'
             }
