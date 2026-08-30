@@ -46,7 +46,7 @@ export default function AddSetForm({ exercises, hasPlan, onSubmit }) {
         <input
           id="exercise-search"
           type="text"
-          placeholder="🔍 Szukaj ćwiczenia..."
+          placeholder="Szukaj ćwiczenia..."
           autoComplete="off"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
