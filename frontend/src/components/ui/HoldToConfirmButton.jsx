@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { haptic } from '../../lib/settings';
 
 const RADIUS = 33;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -7,6 +8,10 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
  * FAB, który wykonuje akcję po przytrzymaniu (domyślnie 850 ms). Pierścień
  * pokazuje postęp; puszczenie przed końcem anuluje. Chroni przed przypadkowym
  * dopisaniem serii jednym tapnięciem.
+ *
+ * Ustawienie „Wibracje” istniało w /settings, ale nic go nie czytało —
+ * teraz start przytrzymania i potwierdzenie dają wyczuwalny sygnał, o ile
+ * użytkownik ich nie wyłączył.
  */
 export default function HoldToConfirmButton({
   onConfirm,
@@ -31,6 +36,7 @@ export default function HoldToConfirmButton({
       holdingRef.current = false;
       setProgress(0);
       setFlash(true);
+      haptic([18, 40, 24]);
       setTimeout(() => setFlash(false), 500);
       onConfirm();
     } else {
@@ -41,6 +47,7 @@ export default function HoldToConfirmButton({
   function start(e) {
     if (disabled) return;
     e.preventDefault();
+    haptic(10);
     holdingRef.current = true;
     startRef.current = performance.now();
     rafRef.current = requestAnimationFrame(tick);
@@ -55,9 +62,7 @@ export default function HoldToConfirmButton({
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="relative h-[78px] w-[78px]">
-        {flash && (
-          <div className="absolute inset-0 animate-pulse-ring rounded-full bg-accent" />
-        )}
+        {flash && <div className="absolute inset-0 animate-pulse-ring rounded-full bg-accent" />}
         <svg className="absolute inset-0 -rotate-90" width="78" height="78" aria-hidden="true">
           <circle cx="39" cy="39" r={RADIUS} fill="none" stroke="var(--color-surface)" strokeWidth="5" />
           <circle
@@ -75,16 +80,17 @@ export default function HoldToConfirmButton({
         <button
           type="button"
           disabled={disabled}
+          aria-label={hint}
           onPointerDown={start}
           onPointerUp={stop}
           onPointerLeave={stop}
           onPointerCancel={stop}
-          className="absolute inset-2 touch-none rounded-full bg-accent font-display text-[22px] font-bold text-accent-fg transition-transform duration-100 active:scale-[0.94] disabled:opacity-40"
+          className="absolute inset-2 touch-none rounded-full bg-accent font-display text-metric font-bold text-accent-fg shadow-accent transition-transform duration-100 active:scale-[0.94] disabled:opacity-40 disabled:shadow-none"
         >
           {children}
         </button>
       </div>
-      {hint && <div className="text-center text-[11px] text-text-muted">{hint}</div>}
+      {hint && <div className="text-center text-label text-text-muted">{hint}</div>}
     </div>
   );
 }
