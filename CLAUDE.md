@@ -116,3 +116,37 @@ Set 2026-07-28 from a coolors palette the user picked (`coolors.co/7c9082-9d69a3
 - **`--color-accent-fg` (`#1B1B1B`) is the content color *on* yellow, never the reverse.** Yellow is a light color: the primary button was `text-white` on the old red accent, and left alone would have been white-on-yellow. Any new yellow-background element needs `text-accent-fg`.
 - Two token renames came with this: `accent-gold` → merged into `accent` (they'd have been the same yellow), and `accent-text` → `danger-text` (it was only ever used for delete-button hovers and invalid inputs). Error styling is now `--color-danger` / `-text` / `-bg`, kept **off-palette red on purpose** — routing errors through the yellow accent would make a failure look like an ordinary highlight.
 - The palette is also duplicated in two places Tailwind can't reach: `index.html`'s `theme-color` meta and `vite.config.js`'s manifest `theme_color`/`background_color`. Change `--color-bg` and you must change those by hand.
+
+## Design system (added on `new_features`, 2026-08-31)
+
+The palette above stayed untouched; what changed is everything *around* it. Before this
+round the frontend had no shared scale for type, spacing or radius — components picked
+`text-[13.5px]`, `text-[11.5px]`, `rounded-[10px]`, `p-3.5` ad hoc, which is why three
+list screens looked like three different apps.
+
+- **Typography is four sizes and two weights**, as `--text-display` / `-title` / `-body` /
+  `-label` in `@theme`, plus `--text-metric` for large monospace numbers only. A new
+  arbitrary `text-[Npx]` in a component is a hierarchy regression, not a style choice.
+- **Radius**: `--radius-DEFAULT` moved 4px → 12px, with `sm/md/lg/xl/2xl/full` alongside.
+- **Shadows** are tokens (`--shadow-card`, `-raised`, `-accent`) tinted to the dark ground.
+- **`--color-accent-soft` / `-line`** are the accent at ~8% / ~22% — the "this is accent"
+  signal for secondary surfaces, so full yellow stays reserved for one CTA per screen.
+- **44 px is the tap-target floor.** `components/ui/IconButton.jsx` exists to enforce it on
+  every icon-only control; the old `p-1.5` ✕ buttons were ~28 px.
+- **Shared providers**: `ToastProvider` (`useToast`) and `ConfirmProvider` (`useConfirm`) are
+  mounted in `app/provider.jsx`. **Do not call native `confirm()`** — `useConfirm()` returns a
+  promise and renders a bottom sheet that can explain the consequence (e.g. that deleting a
+  plan leaves its workouts intact). Both hooks degrade to no-ops / native `confirm` outside
+  the provider, so components stay renderable in isolation.
+- **Settings are a store, not local state.** `lib/settings.js` exposes `useSettings()`
+  (`useSyncExternalStore`, syncs across tabs) plus `updateSettings()` and `haptic()`. The
+  weekly-goal ring used to read `localStorage` inline during render, so changing the goal
+  did nothing until reload. The `unit` (kg/lb) setting is now actually wired: the backend
+  keeps kilograms and `lib/units.js` converts at the presentation layer only — never persist
+  a converted value.
+- **`/progress` computes everything client-side** from `GET /workouts/` (which already
+  returns sets) via `features/workouts/utils/stats.js`. No new endpoint was added. If a
+  `/stats` endpoint ever lands, those functions stay useful as the offline fallback.
+- **One set logger, not two.** `AddSetForm` and `QuickSetLogger` were deleted and replaced by
+  `features/workouts/components/SetLogger.jsx` — one card with a keyboard/slider toggle.
+  Keyboard is the default: sets are repeated, precise entry, which sliders are bad at.

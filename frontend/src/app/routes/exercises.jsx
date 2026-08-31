@@ -1,39 +1,53 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Button from '../../components/ui/Button';
-import Skeleton from '../../components/ui/Skeleton';
+import Fab from '../../components/ui/Fab';
+import { SkeletonList } from '../../components/ui/Skeleton';
 import ErrorBanner from '../../components/ui/ErrorBanner';
+import SegmentedControl from '../../components/ui/SegmentedControl';
 import { useExercises, useDeleteExercise, ExerciseList, ExerciseForm, ExerciseSearch } from '../../features/exercises';
 
+/**
+ * Biblioteka ćwiczeń. Wcześniej ekran renderował obie listy naraz — własne
+ * i globalne (kilkadziesiąt pozycji z seeda) — jedna pod drugą, z formularzem
+ * dodawania wciśniętym pomiędzy nagłówek a wyniki. Żeby dojść do globalnych,
+ * trzeba było przewinąć wszystko powyżej.
+ *
+ * Teraz: przełącznik „Moje / Globalne” z licznikami, formularz pod akcją
+ * w strefie kciuka, a wyszukiwarka i filtry zostają na górze — działają
+ * na obu zakładkach.
+ */
 export default function ExercisesRoute() {
-  const navigate = useNavigate();
   const { data: exercises = [], isLoading } = useExercises();
   const deleteExercise = useDeleteExercise();
   const [query, setQuery] = useState('');
   const [group, setGroup] = useState(null);
+  const [tab, setTab] = useState('own');
+  const [formOpen, setFormOpen] = useState(false);
 
   const groups = useMemo(
     () => [...new Set(exercises.map((e) => e.muscle_group).filter(Boolean))],
     [exercises],
   );
 
-  const matches = (ex) => {
+  const { own, global } = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return (!q || ex.name.toLowerCase().includes(q)) && (!group || ex.muscle_group === group);
-  };
+    const matches = (ex) =>
+      (!q || ex.name.toLowerCase().includes(q)) && (!group || ex.muscle_group === group);
+    return {
+      own: exercises.filter((ex) => !ex.is_global && matches(ex)),
+      global: exercises.filter((ex) => ex.is_global && matches(ex)),
+    };
+  }, [exercises, query, group]);
 
-  const own = useMemo(() => exercises.filter((ex) => !ex.is_global && matches(ex)), [exercises, query, group]);
-  const global = useMemo(() => exercises.filter((ex) => ex.is_global && matches(ex)), [exercises, query, group]);
+  const visible = tab === 'own' ? own : global;
 
   return (
-    <div className="flex flex-1 flex-col gap-5 px-5 pb-[100px] pt-6">
-      <Button variant="link" onClick={() => navigate('/workouts')}>
-        ← Wszystkie treningi
-      </Button>
-      <h1 className="m-0 font-display text-[28px] font-semibold tracking-wide">Twoje ćwiczenia</h1>
-      <p className="-mt-3.5 mb-1 text-sm text-text-muted">
-        Dodawaj własne ćwiczenia — widzisz je tylko Ty, inni użytkownicy ich nie zobaczą.
-      </p>
+    <main className="flex flex-1 flex-col gap-5 px-6 pb-[152px] pt-6">
+      <header>
+        <h1 className="m-0 font-display text-display font-semibold tracking-wide">Ćwiczenia</h1>
+        <p className="m-0 mt-1 text-body text-text-muted">
+          Własne ćwiczenia widzisz tylko Ty. Globalne są dostępne dla wszystkich.
+        </p>
+      </header>
 
       <ExerciseSearch
         query={query}
@@ -43,39 +57,46 @@ export default function ExercisesRoute() {
         onGroupChange={setGroup}
       />
 
-      <ExerciseForm />
+      <SegmentedControl
+        ariaLabel="Zakres biblioteki"
+        value={tab}
+        onChange={setTab}
+        options={[
+          { value: 'own', label: `Moje (${own.length})` },
+          { value: 'global', label: `Globalne (${global.length})` },
+        ]}
+      />
 
-      <div>
-        <div className="mb-2.5 rounded bg-surface-raised px-3.5 py-2.5 font-display text-[15px] uppercase tracking-wide">
-          Twoje własne
-        </div>
-        <ErrorBanner>{deleteExercise.error?.message}</ErrorBanner>
-        {isLoading ? (
-          <div className="flex flex-col gap-2">
-            <Skeleton />
-            <Skeleton />
-          </div>
-        ) : (
-          <ExerciseList
-            exercises={own}
-            emptyMessage={
-              query || group
-                ? 'Brak własnych ćwiczeń pasujących do wyszukiwania.'
-                : 'Nie masz jeszcze własnych ćwiczeń. Dodaj pierwsze powyżej.'
-            }
-            onDelete={(ex) => deleteExercise.mutateAsync(ex.id)}
-          />
-        )}
-      </div>
+      <ErrorBanner>{deleteExercise.error?.message}</ErrorBanner>
 
-      <div>
-        <div className="mb-2.5 rounded bg-surface-raised px-3.5 py-2.5 font-display text-[15px] uppercase tracking-wide">
-          Globalne (dostępne dla wszystkich)
-        </div>
-        {!isLoading && (
-          <ExerciseList exercises={global} emptyMessage="Brak globalnych ćwiczeń pasujących do wyszukiwania." />
-        )}
-      </div>
-    </div>
+      {isLoading ? (
+        <SkeletonList count={5} height={56} />
+      ) : (
+        <ExerciseList
+          exercises={visible}
+          emptyTitle={query || group ? 'Nic nie pasuje' : tab === 'own' ? 'Brak własnych ćwiczeń' : 'Pusto'}
+          emptyMessage={
+            query || group
+              ? 'Zmień frazę albo zdejmij filtr partii mięśniowej.'
+              : tab === 'own'
+                ? 'Dodaj ćwiczenie, którego nie ma w bibliotece globalnej — na przykład wariant z Twojej siłowni.'
+                : 'Biblioteka globalna jest pusta.'
+          }
+          emptyAction={
+            tab === 'own' && !query && !group
+              ? { label: 'Dodaj ćwiczenie', onClick: () => setFormOpen(true) }
+              : undefined
+          }
+          onDelete={tab === 'own' ? (ex) => deleteExercise.mutateAsync(ex.id) : undefined}
+        />
+      )}
+
+      {formOpen && <ExerciseForm onCreated={() => setFormOpen(false)} />}
+
+      <Fab
+        label={formOpen ? 'Ukryj formularz' : 'Nowe ćwiczenie'}
+        onClick={() => setFormOpen((v) => !v)}
+      />
+    </main>
   );
 }

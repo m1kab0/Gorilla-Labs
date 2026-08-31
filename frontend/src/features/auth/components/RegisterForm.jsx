@@ -17,21 +17,22 @@ export default function RegisterForm() {
     try {
       await register.mutateAsync({ email, password, displayName });
       navigate('/workouts');
-    } catch (_) {
+    } catch {
       // błąd jest już wystawiony niżej przez register.error
     }
   }
 
   return (
-    <div className="flex flex-col gap-5 px-5 py-6">
-      <h1 className="m-0 font-display text-[28px] font-semibold tracking-wide">Załóż konto</h1>
+    <div className="flex flex-col gap-6 px-6 pb-12">
+      <h1 className="m-0 font-display text-display font-semibold tracking-wide">Załóż konto</h1>
       <ErrorBanner>{register.error?.message}</ErrorBanner>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <TextField
           id="register-name"
           label="Imię / nick"
           type="text"
           autoComplete="nickname"
+          hint="Pokażemy je w powitaniu na liście treningów."
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
         />
@@ -51,6 +52,7 @@ export default function RegisterForm() {
           required
           minLength={6}
           autoComplete="new-password"
+          hint="Minimum 6 znaków."
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -58,9 +60,9 @@ export default function RegisterForm() {
           {register.isPending ? 'Tworzenie konta…' : 'Utwórz konto'}
         </Button>
       </form>
-      <div className="text-center text-[13px] text-text-muted">
+      <div className="text-center text-body text-text-muted">
         Masz już konto?{' '}
-        <Link to="/login" className="text-accent underline">
+        <Link to="/login" className="text-accent underline underline-offset-2">
           Zaloguj się
         </Link>
       </div>

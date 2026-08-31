@@ -1,16 +1,21 @@
 import { NavLink } from 'react-router-dom';
 
 /* Zębatka w headerze — wejście do /settings.
-   Obraca się na hover, „wciska” na tap, na aktywnej trasie świeci akcentem. */
+   Obraca się na hover, „wciska” na tap, na aktywnej trasie świeci akcentem.
+
+   Stan aktywny miał `text-surface` na żółtym tle — czyli grafit #2F2F2F na
+   #FFFF82. CLAUDE.md mówi wprost: treść NA żółtym to zawsze `accent-fg`.
+   Poprawione, bo kontrast grafitu na żółci jest wyraźnie słabszy niż czerni.
+   Pole dotyku podniesione z 38 do 44 px. */
 export default function SettingsButton() {
   return (
     <NavLink
       to="/settings"
       aria-label="Ustawienia"
       className={({ isActive }) =>
-        `flex h-[38px] w-[38px] items-center justify-center rounded-xl border transition-all duration-200 hover:rotate-[35deg] hover:border-accent hover:text-accent active:scale-95 ${
+        `flex h-11 w-11 shrink-0 items-center justify-center rounded-md border transition-all duration-200 hover:rotate-[35deg] hover:border-accent hover:text-accent active:scale-95 ${
           isActive
-            ? 'border-accent bg-accent text-surface'
+            ? 'border-accent bg-accent text-accent-fg'
             : 'border-line bg-transparent text-text-muted'
         }`
       }

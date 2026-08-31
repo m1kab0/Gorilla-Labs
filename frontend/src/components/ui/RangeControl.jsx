@@ -4,6 +4,10 @@ import { useRef, useState } from 'react';
  * Suwak przeciągany palcem/myszą z ręcznym wpisem po tapnięciu liczby.
  * Kontrolowany: value + onChange(number). Krok i zakres z propsów, bo
  * powtórzenia liczymy co 1, a ciężar co 2.5 kg.
+ *
+ * Doszły dwa przyciski ±krok. Suwak jest świetny do zgrubnego ustawienia,
+ * ale trafienie palcem w 82.5 kg na 200-kilogramowej skali to loteria —
+ * a korekta o jeden krok to najczęstsza operacja między seriami.
  */
 export default function RangeControl({
   label,
@@ -20,12 +24,12 @@ export default function RangeControl({
   const [draft, setDraft] = useState('');
 
   const pct = max === min ? 0 : ((value - min) / (max - min)) * 100;
+  const clamp = (v) => Math.min(max, Math.max(min, Math.round(v / step) * step));
 
   function valueFromClientX(clientX) {
     const rect = trackRef.current.getBoundingClientRect();
     const t = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-    const raw = min + t * (max - min);
-    return Math.round(raw / step) * step;
+    return clamp(min + t * (max - min));
   }
 
   function handlePointerDown(e) {
@@ -46,20 +50,19 @@ export default function RangeControl({
 
   function commitDraft() {
     const parsed = parseFloat(draft.replace(',', '.'));
-    if (!Number.isNaN(parsed)) {
-      onChange(Math.min(max, Math.max(min, Math.round(parsed / step) * step)));
-    }
+    if (!Number.isNaN(parsed)) onChange(clamp(parsed));
     setEditing(false);
   }
 
   return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-end justify-between">
+    <div className="flex flex-col gap-2">
+      <div className="flex items-end justify-between gap-3">
         {editing ? (
           <input
             autoFocus
             type="number"
             inputMode="decimal"
+            aria-label={label}
             min={min}
             max={max}
             step={step}
@@ -70,7 +73,7 @@ export default function RangeControl({
               if (e.key === 'Enter') commitDraft();
               if (e.key === 'Escape') setEditing(false);
             }}
-            className="w-[110px] rounded border border-accent bg-surface px-2 py-1 font-mono text-[26px] font-semibold text-text outline-none"
+            className="w-[120px] rounded-sm border border-accent bg-surface px-3 py-1 font-mono text-metric font-semibold text-text outline-none"
           />
         ) : (
           <button
@@ -80,12 +83,31 @@ export default function RangeControl({
               setDraft(String(value));
               setEditing(true);
             }}
-            className="font-mono text-[26px] font-semibold leading-none text-text"
+            className="flex items-baseline gap-1.5 font-mono text-metric font-semibold leading-none text-text"
           >
             {value}
+            <span className="font-mono text-label text-text-muted">{suffix || label}</span>
           </button>
         )}
-        <span className="mb-1 font-mono text-[11px] text-text-muted">{suffix || label}</span>
+
+        <div className="flex gap-2">
+          <button
+            type="button"
+            aria-label={`${label}: mniej`}
+            onClick={() => onChange(clamp(value - step))}
+            className="h-11 w-11 rounded-full bg-surface-raised font-mono text-title text-text transition-transform active:scale-90"
+          >
+            −
+          </button>
+          <button
+            type="button"
+            aria-label={`${label}: więcej`}
+            onClick={() => onChange(clamp(value + step))}
+            className="h-11 w-11 rounded-full bg-surface-raised font-mono text-title text-text transition-transform active:scale-90"
+          >
+            +
+          </button>
+        </div>
       </div>
 
       <div
@@ -101,17 +123,14 @@ export default function RangeControl({
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
         onKeyDown={(e) => {
-          if (e.key === 'ArrowRight') onChange(Math.min(max, value + step));
-          if (e.key === 'ArrowLeft') onChange(Math.max(min, value - step));
+          if (e.key === 'ArrowRight') onChange(clamp(value + step));
+          if (e.key === 'ArrowLeft') onChange(clamp(value - step));
         }}
-        className="relative h-[26px] cursor-grab touch-none rounded-[13px] bg-surface active:cursor-grabbing focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="relative h-8 cursor-grab touch-none rounded-full bg-surface active:cursor-grabbing"
       >
+        <div className="absolute inset-y-0 left-0 rounded-full bg-accent" style={{ width: `${pct}%` }} />
         <div
-          className="absolute inset-y-0 left-0 rounded-[13px] bg-accent"
-          style={{ width: `${pct}%` }}
-        />
-        <div
-          className="absolute top-1/2 h-[22px] w-[22px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-text shadow-[0_2px_6px_rgba(0,0,0,0.4)]"
+          className="absolute top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full bg-text shadow-card"
           style={{ left: `${pct}%` }}
         />
       </div>
